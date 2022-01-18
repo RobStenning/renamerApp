@@ -1,0 +1,19 @@
+{
+  "name": "renamerapp",
+  "version": "1.0.0",
+  "description": "renamer app",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RobStenning/renamerApp.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/RobStenning/renamerApp/issues"
+  },
+  "homepage": "https://github.com/RobStenning/renamerApp#readme"
+}
