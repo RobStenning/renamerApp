@@ -2,7 +2,7 @@ const electron = require('electron');
 const url = require('url');
 const path = require('path');
 
-const {app, BrowserWindow, Menu} = electron;
+const {app, BrowserWindow, Menu, ipcMain} = electron;
 
 let mainWindow;
 let addWindow;
@@ -47,6 +47,13 @@ function createprojectCodeWindow(){
         addWindow = null;
     })
 }
+
+//catch projectcode
+ipcMain.on('projectcode:add', function(event, projectcode){
+    console.log(projectcode);
+    mainWindow.webContents.send('projectcode:add', projectcode);
+    projectCodeWindow.close();
+})
 
 //menu template
 const mainMenuTemplate = [

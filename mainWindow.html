@@ -7,9 +7,26 @@
     <div>
     <h1>RENAMER APP</h1>
     <div>use file to select entre project code</div>
+    <ul>the project code is set to: </ul>
     <div>select txt file location</div>
     <div>select pdf folder location</div>
     <div>run</div>
     </div>
+<script>
+    const electron = require('electron');
+    const {ipcRenderer} = electron;
+    const ul = document.querySelector('ul');
+
+    ipcRenderer.on('projectcode:add', function(event, projectcode){
+        const li = document.createElement('li');
+        const projectcodeText = document.createTextNode(projectcode);
+        li.appendChild(projectcodeText);
+        ul.appendChild(li);
+    })
+    
+    const form = document.querySelector('form');
+    form.addEventListener('submit', submitForm);
+</script>
+
 </body>
 </html>

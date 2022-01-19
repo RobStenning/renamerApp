@@ -11,5 +11,19 @@
         </div>
         <button type="submit">OK</button>
     </form>
+
+<script>
+    const electron = require('electron');
+    const {ipcRenderer} = electron;
+    const form = document.querySelector('form');
+    form.addEventListener('submit', submitForm);
+
+    function submitForm(event){
+        event.preventDefault();
+        const projectcode = document.querySelector('#projectcode').value;
+        ipcRenderer.send('projectcode:add', projectcode);
+    }
+</script>
+
 </body>
 </html>
