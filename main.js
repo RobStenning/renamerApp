@@ -27,13 +27,17 @@ app.on('ready', function() {
     Menu.setApplicationMenu(mainMenu);
 });
 
+//default pop up window size
+const defaultWidth = 350
+const defaultHeight = 150
+
 
 //create project code window
 function createprojectCodeWindow(){
     //create new window
     projectCodeWindow = new BrowserWindow({
-        width: 350,
-        height: 150,
+        width: defaultWidth,
+        height: defaultHeight,
         title: 'Specify the project code'    
     });
     //load html file
@@ -47,13 +51,34 @@ function createprojectCodeWindow(){
         addWindow = null;
     })
 }
-
 //catch projectcode
 ipcMain.on('projectcode:add', function(event, projectcode){
     console.log(projectcode);
     mainWindow.webContents.send('projectcode:add', projectcode);
     projectCodeWindow.close();
 })
+
+//dialog.showOpenDialoSync([browserWindow])
+
+//create selectFolder location window
+function createSelectFolderWindow(){
+    //create new window
+    const selectFolderWindow = new BrowserWindow({
+        width: defaultWidth,
+        height: defaultHeight,
+        title: 'Specify the txt file location'
+    });
+    //load html file
+    selectFolderWindow.loadURL(url.format({
+        pathname: path.join(__dirname, 'projectCodeWindow.html'),
+        protocol: 'file',
+        slashes: true
+    }));
+    //garbage collection, saves memory?
+    selectFolderWindow.on('close', function(){
+        addWindow = null;
+    })
+}
 
 //menu template
 const mainMenuTemplate = [
@@ -80,6 +105,12 @@ const mainMenuTemplate = [
                 }
             }
         ]
+    },
+    {
+        label: 'Select Folder',
+        click(){
+            createSelectFolderWindow();
+        }
     }
 ];
 
