@@ -9,6 +9,7 @@
     <div>use file to select entre project code</div>
     <ul>the project code is set to: </ul>
     <div>the txt file location is set to:</div>
+    <h2></h2>
     <div>the pdf folder location is set to:</div>
     <div>run</div>
     </div>
@@ -26,6 +27,16 @@
     
     const form = document.querySelector('form');
     form.addEventListener('submit', submitForm);
+//needs work, trying to select a h2 and add an li currently
+    const h2 = document.querySelector('h2');
+    
+    ipcRenderer.on('folderlocation:add', function(event, folderlocation){
+        const li = document.createElement('li');
+        const folderLocationText = document.createTextNode(folderlocation);
+        li.appendChild(folderLocationText);
+        ul.appendChild(li);
+    })
+
 </script>
 
 </body>

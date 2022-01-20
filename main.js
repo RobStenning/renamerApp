@@ -70,7 +70,7 @@ function createSelectFolderWindow(){
     });
     //load html file
     selectFolderWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'projectCodeWindow.html'),
+        pathname: path.join(__dirname, 'selectFolderWindow.html'),
         protocol: 'file',
         slashes: true
     }));
