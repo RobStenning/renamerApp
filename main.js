@@ -6,6 +6,9 @@ const {app, BrowserWindow, Menu, ipcMain} = electron;
 
 let mainWindow;
 let addWindow;
+process.on('uncaughtException', function (error) {
+    console.log(error)
+})
 //listen for app ready
 app.on('ready', function() {
     //create new window
@@ -31,7 +34,6 @@ app.on('ready', function() {
 const defaultWidth = 350
 const defaultHeight = 150
 
-
 //create project code window
 function createprojectCodeWindow(){
     //create new window
@@ -50,16 +52,15 @@ function createprojectCodeWindow(){
     projectCodeWindow.on('close', function(){
         addWindow = null;
     })
-}
+
+
 //catch projectcode
 ipcMain.on('projectcode:add', function(event, projectcode){
     console.log(projectcode);
     mainWindow.webContents.send('projectcode:add', projectcode);
     projectCodeWindow.close();
 })
-
-//dialog.showOpenDialoSync([browserWindow])
-
+}
 //create selectFolder location window
 function createSelectFolderWindow(){
     //create new window
@@ -77,6 +78,13 @@ function createSelectFolderWindow(){
     //garbage collection, saves memory?
     selectFolderWindow.on('close', function(){
         addWindow = null;
+    })
+
+//catch folderLocation
+ipcMain.on('folderlocation:add', function(event, folderlocation){
+    console.log(folderlocation);
+    mainWindow.webContents.send('folderlocation:add', folderlocation);
+    selectFolderWindow.close();
     })
 }
 
@@ -137,3 +145,6 @@ if(process.env.NODE_ENV !== 'production'){
         ]
     });
 }
+
+//snippets for ideas
+//dialog.showOpenDialoSync([browserWindow])

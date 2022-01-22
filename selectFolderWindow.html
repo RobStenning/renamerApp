@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Project Code</title>
+    <title>Folder Location</title>
 </head>
 <body>
     <form action="">
         <div>
             <label>Folder Location</label>
-            <input type="text" id="folderLocation" autofocus>
+            <input type="text" id="folderlocation" autofocus>
         </div>
         <button type="submit">OK</button>
     </form>
@@ -20,8 +20,8 @@
 
     function submitForm(event){
         event.preventDefault();
-        const projectcode = document.querySelector('#folderLocation').value;
-        ipcRenderer.send('folderLocation:add', folderLocation);
+        const folderlocation = document.querySelector('#folderlocation').value;
+        ipcRenderer.send('folderlocation:add', folderlocation);
     }
 </script>
 

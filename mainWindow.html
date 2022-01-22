@@ -6,11 +6,14 @@
 <body>
     <div>
     <h1>RENAMER APP</h1>
-    <div>use file to select entre project code</div>
-    <ul>the project code is set to: </ul>
+    <br>
+    <div>the project code is set to: <p id="projectCode">XXXXX</p></div>
     <div>the txt file location is set to:</div>
-    <h2></h2>
+    <div id="folderLocation">//C:Users/Documents</div>
+    <br>
     <div>the pdf folder location is set to:</div>
+    <div>//C:Users/Documents</div>
+    <br>
     <div>run</div>
     </div>
 <script>
@@ -19,23 +22,17 @@
     const ul = document.querySelector('ul');
 
     ipcRenderer.on('projectcode:add', function(event, projectcode){
-        const li = document.createElement('li');
-        const projectcodeText = document.createTextNode(projectcode);
-        li.appendChild(projectcodeText);
-        ul.appendChild(li);
+        const setProjectCode = document.querySelector('#projectCode');
+        setProjectCode.innerHTML = projectcode;
+    })
+    
+    ipcRenderer.on('folderlocation:add', function(event, folderlocation){
+        const setfolderLocation = document.querySelector('#folderLocation');
+        setfolderLocation.innerHTML = folderlocation;
     })
     
     const form = document.querySelector('form');
     form.addEventListener('submit', submitForm);
-//needs work, trying to select a h2 and add an li currently
-    const h2 = document.querySelector('h2');
-    
-    ipcRenderer.on('folderlocation:add', function(event, folderlocation){
-        const li = document.createElement('li');
-        const folderLocationText = document.createTextNode(folderlocation);
-        li.appendChild(folderLocationText);
-        ul.appendChild(li);
-    })
 
 </script>
 
