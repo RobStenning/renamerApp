@@ -7,32 +7,54 @@
     <div>
     <h1>RENAMER APP</h1>
     <br>
-    <div>the project code is set to: <p id="projectCode">XXXXX</p></div>
+    <form id="setCode">the project code is set to: <a id="code">XXXXX</a>
+        <br>
+        <input type="text" id="projectcode" placeholder="XXXXX">
+        <button type="submit">SET</button>
+    </form>
     <div>the txt file location is set to:</div>
     <div id="folderLocation">//C:Users/Documents</div>
     <br>
     <div>the pdf folder location is set to:</div>
     <div>//C:Users/Documents</div>
     <br>
-    <div>run</div>
+    <form id="rename">
+    <button type="submit">RENAME</button>
+    </form>
     </div>
 <script>
     const electron = require('electron');
     const {ipcRenderer} = electron;
-    const ul = document.querySelector('ul');
 
-    ipcRenderer.on('projectcode:add', function(event, projectcode){
-        const setProjectCode = document.querySelector('#projectCode');
+    //set project code form   
+    function setCode(event){
+        event.preventDefault();
+        const projectcode = document.querySelector('#projectcode').value;
+        //ipcRenderer.send('projectcode:add', projectcode);
+        //ipcRenderer.on('projectcode:add', function(event, projectcode){
+        const setProjectCode = document.querySelector('#code');
+        console.log(projectcode);
         setProjectCode.innerHTML = projectcode;
-    })
+        //console.log(setProjectCode);
+        //setProjectCode.innerHTML = projectcode;
+    }
     
     ipcRenderer.on('folderlocation:add', function(event, folderlocation){
         const setfolderLocation = document.querySelector('#folderLocation');
         setfolderLocation.innerHTML = folderlocation;
     })
     
-    const form = document.querySelector('form');
-    form.addEventListener('submit', submitForm);
+    const setCodeForm = document.querySelector('#setCode');
+    setCodeForm.addEventListener('submit', setCode);
+
+    
+    function message(event){
+        event.preventDefault();
+        console.log('running renamer');
+    }
+    const renameSubmit = document.querySelector('#rename');
+    renameSubmit.addEventListener('submit', message);
+
 
 </script>
 
