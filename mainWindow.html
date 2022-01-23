@@ -5,19 +5,20 @@
 </head>
 <body>
     <div>
-    <h1>RENAMER APP</h1>
+    <h1>RENAMER</h1>
     <br>
     <form id="setCode">the project code is set to: <a id="code">XXXXX</a>
         <br>
         <input type="text" id="projectcode" placeholder="XXXXX">
         <button type="submit">SET</button>
     </form>
-    <div>the txt file location is set to:</div>
-    <div id="folderLocation">//C:Users/Documents</div>
     <br>
-    <div>the pdf folder location is set to:</div>
-    <div>//C:Users/Documents</div>
-    <br>
+    <div>Select the txt file location</div>
+    <input type="file" id="txtFileLocaion" accept=".txt">
+    <p></p>
+    <div>Select the PDF folder location</div>
+    <input type="file" id="pdfFolder" webkitdirectory>
+    <p></p>
     <form id="rename">
     <button type="submit">RENAME</button>
     </form>
@@ -44,18 +45,21 @@
         setfolderLocation.innerHTML = folderlocation;
     })
     
+    //SET code button
     const setCodeForm = document.querySelector('#setCode');
     setCodeForm.addEventListener('submit', setCode);
 
-    
+    //RENAME button
     function message(event){
         event.preventDefault();
         console.log('running renamer');
+        console.log(txtFile);
     }
     const renameSubmit = document.querySelector('#rename');
     renameSubmit.addEventListener('submit', message);
 
-
+    //catch txt file location
+    const fileData = document.querySelector('#textFileLocation')
 </script>
 
 </body>
