@@ -88,6 +88,7 @@ ipcMain.on('folderlocation:add', function(event, folderlocation){
     })
 }
 
+
 //menu template
 const mainMenuTemplate = [
     {
