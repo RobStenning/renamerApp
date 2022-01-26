@@ -14,7 +14,7 @@
     </form>
     <br>
     <div>Select the txt file location</div>
-    <input type="file" id="txtFileLocaion" accept=".txt">
+    <button type="file" id="txtFileLocation" accept=".txt" onclick="this.value=electron.remote.dialog.showOpenDialog()[0]">Choose File</button>
     <p></p>
     <div>Select the PDF folder location</div>
     <input type="file" id="pdfFolder" webkitdirectory>
@@ -23,6 +23,7 @@
     <button type="submit">RENAME</button>
     </form>
     </div>
+    <button id="testbutton" onclick="this.value=electron.remote.dialog.showOpenDialog()[0]" >Update File Test</button>
 <script>
     const electron = require('electron');
     const {ipcRenderer} = electron;
@@ -61,6 +62,19 @@
 
     //catch txt file location
     //https://medium.com/jspoint/working-with-files-i-o-in-an-electron-application-b4d2de403f54
+
+    //test areas
+
+    function testButton(){
+    document.getElementById('testbutton').value;
+     };
+    
+    function testFunction(){
+        let txtFile = document.getElementById('txtFileLocation').value;
+        console.log(txtFile.value);
+        console.log(txtFileLocation.value);
+    }
+
 </script>
 
 </body>
