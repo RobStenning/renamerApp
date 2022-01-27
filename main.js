@@ -2,7 +2,7 @@ const electron = require('electron');
 const url = require('url');
 const path = require('path');
 
-const {app, BrowserWindow, Menu, ipcMain} = electron;
+const {app, BrowserWindow, Menu, ipcMain, dialog, os} = electron;
 
 let mainWindow;
 let addWindow;
@@ -88,6 +88,35 @@ ipcMain.on('folderlocation:add', function(event, folderlocation){
     })
 }
 
+//test button area
+/*
+issues with os defined in require
+issues with cannot read property platform of undefined
+platform, restructured to darwin
+
+ipcMain.on('open-file-dialog-for-file', function (event) {
+    if(os.platform() === 'linux' || os.platform() === 'win32'){
+        dialog.showOpenDialog({
+            properties: ['openFile']
+        }, function (files) {
+            if (files) event.sender.send('selected-file', files[0]);
+        });
+    } else {
+            dialog.showOpenDialog({
+                properties: ['openFiles', 'openDirectory']
+            }, function (files) {
+                if (files) event.sender.send('selected-file', file[0]);
+            });
+}});
+*/
+//currently working
+ipcMain.on('open-file-dialog-for-file', function (event) {
+    dialog.showOpenDialog({
+            properties: ['openFile']
+        }, function (files) {
+            if (files) event.sender.send('selected-file', files[0]);
+        });
+});
 
 //menu template
 const mainMenuTemplate = [
@@ -145,7 +174,4 @@ if(process.env.NODE_ENV !== 'production'){
             }
         ]
     });
-}
-
-//snippets for ideas
-//dialog.showOpenDialoSync([browserWindow])
+};

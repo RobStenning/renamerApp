@@ -14,7 +14,11 @@
     </form>
     <br>
     <div>Select the txt file location</div>
-    <button type="file" id="txtFileLocation" accept=".txt" onclick="this.value=electron.remote.dialog.showOpenDialog()[0]">Choose File</button>
+    <!--
+        tested this line to grab txt URL, failed on sending from HTML to JS
+        <button type="file" id="txtFileLocation" accept=".txt" onclick="this.value=electron.remote.dialog.showOpenDialog()[0]">Choose File</button>
+    -->
+    <button type="file" id="txtFileLocation" accept=".txt">Choose File</button>
     <p></p>
     <div>Select the PDF folder location</div>
     <input type="file" id="pdfFolder" webkitdirectory>
@@ -25,9 +29,10 @@
     </div>
     <button id="testbutton" onclick="this.value=electron.remote.dialog.showOpenDialog()[0]" >Update File Test</button>
 <script>
-    const electron = require('electron');
-    const {ipcRenderer} = electron;
+    //const electron = require('electron');
+    //const {ipcRenderer} = electron;
 
+    const ipc = require('electron').ipcRenderer;
 
     //set project code form   
     function setCode(event){
@@ -42,7 +47,7 @@
         //setProjectCode.innerHTML = projectcode;
     }
     
-    ipcRenderer.on('folderlocation:add', function(event, folderlocation){
+    ipc.on('folderlocation:add', function(event, folderlocation){
         const setfolderLocation = document.querySelector('#folderLocation');
         setfolderLocation.innerHTML = folderlocation;
     })
@@ -64,16 +69,29 @@
     //https://medium.com/jspoint/working-with-files-i-o-in-an-electron-application-b4d2de403f54
 
     //test areas
+    //currently working
+    const txtButton = document.getElementById('txtFileLocation');
 
+    txtButton.addEventListener('click', function (event) {
+        ipc.send('open-file-dialog-for-file')
+    });
+
+    ipc.on('selected-file', function (event, path) {
+    console.log('Full path: ', path);
+});
+    /*
+    tested HTML to JS, URL worked but exporting issues
     function testButton(){
     document.getElementById('testbutton').value;
      };
     
     function testFunction(){
-        let txtFile = document.getElementById('txtFileLocation').value;
-        console.log(txtFile.value);
+        document.getElementById('txtFileLocation').value;
         console.log(txtFileLocation.value);
     }
+    */
+    //tried to export function from HTML to JS but ran in to errors
+    //export { testFunction };
 
 </script>
 
