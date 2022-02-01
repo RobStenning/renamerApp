@@ -1,7 +1,8 @@
 //reads txt file
 var fs = require('fs');
 const { type } = require('os');
-var data = fs.readFileSync('test.txt', 'utf8');
+// orignal var data = fs.readFileSync('test.txt', 'utf8');
+var data = fs.readFileSync(txtFile, 'utf8');
 
 //splits string into an array using the " as the break point
 //this gives us data on every odd number, every even number is a blank

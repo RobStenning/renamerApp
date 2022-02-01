@@ -7,31 +7,31 @@
     <div>
     <h1>RENAMER</h1>
     <br>
-    <form id="setCode">the project code is set to: <a id="code">XXXXX</a>
-        <br>
-        <input type="text" id="projectcode" placeholder="XXXXX">
-        <button type="submit">SET</button>
-    </form>
+    <div>Select the project code
+        <form id="setCode">Current project code: <a id="code">XXXXX</a>
+            <br>
+            <input type="text" id="projectcode" placeholder="XXXXX">
+            <button type="submit">SET</button>
+        </form>
+    </div>
     <br>
     <div>Select the txt file location</div>
-    <!--
-        tested this line to grab txt URL, failed on sending from HTML to JS
-        <button type="file" id="txtFileLocation" accept=".txt" onclick="this.value=electron.remote.dialog.showOpenDialog()[0]">Choose File</button>
-    -->
+    <div>Current file: 
+        <a id="currentFile">none</a>
+    </div>
     <button type="file" id="txtFileLocation" accept=".txt">Choose File</button>
     <p></p>
     <div>Select the PDF folder location</div>
-    <input type="file" id="pdfFolder" webkitdirectory>
+    <div>Current file: 
+        <a id="currentFolder">none</a>
+    </div>
+    <button type="directory" id="pdfFolderLocation">Choose Folder</button>
     <p></p>
     <form id="rename">
     <button type="submit">RENAME</button>
     </form>
     </div>
-    <button id="testbutton" onclick="this.value=electron.remote.dialog.showOpenDialog()[0]" >Update File Test</button>
 <script>
-    //const electron = require('electron');
-    //const {ipcRenderer} = electron;
-
     const ipc = require('electron').ipcRenderer;
 
     //set project code form   
@@ -47,16 +47,32 @@
         //setProjectCode.innerHTML = projectcode;
     }
     
-    ipc.on('folderlocation:add', function(event, folderlocation){
-        const setfolderLocation = document.querySelector('#folderLocation');
-        setfolderLocation.innerHTML = folderlocation;
-    })
-    
     //SET code button
     const setCodeForm = document.querySelector('#setCode');
     setCodeForm.addEventListener('submit', setCode);
 
-    //RENAME button
+    //Choose File Button
+    const txtButton = document.getElementById('txtFileLocation');
+    txtButton.addEventListener('click', function (event) {
+        ipc.send('open-file-dialog-for-file')
+    });
+
+    ipc.on('selected-file', function (event, path) {
+    console.log('Full path: ', path);
+    document.getElementById('currentFile').innerHTML = path;
+});
+
+    //Choose Folder Button
+    const folderButton = document.getElementById('pdfFolderLocation');
+    folderButton.addEventListener('click', function (event) {
+        ipc.send('open-folder-dialog-for-folder');
+    });
+
+    ipc.on('selected-folder', function (event, folderPath) {
+    console.log('Full path: ', folderPath);
+    document.getElementById('currentFolder').innerHTML = folderPath;
+});
+    //RENAME button - needs work
     function message(event){
         event.preventDefault();
         console.log('running renamer');
@@ -65,33 +81,8 @@
     const renameSubmit = document.querySelector('#rename');
     renameSubmit.addEventListener('submit', message);
 
-    //catch txt file location
-    //https://medium.com/jspoint/working-with-files-i-o-in-an-electron-application-b4d2de403f54
-
     //test areas
-    //currently working
-    const txtButton = document.getElementById('txtFileLocation');
 
-    txtButton.addEventListener('click', function (event) {
-        ipc.send('open-file-dialog-for-file')
-    });
-
-    ipc.on('selected-file', function (event, path) {
-    console.log('Full path: ', path);
-});
-    /*
-    tested HTML to JS, URL worked but exporting issues
-    function testButton(){
-    document.getElementById('testbutton').value;
-     };
-    
-    function testFunction(){
-        document.getElementById('txtFileLocation').value;
-        console.log(txtFileLocation.value);
-    }
-    */
-    //tried to export function from HTML to JS but ran in to errors
-    //export { testFunction };
 
 </script>
 

@@ -90,6 +90,7 @@ ipcMain.on('folderlocation:add', function(event, folderlocation){
 
 //test button area
 /*
+extra code to handle platform, to look into
 issues with os defined in require
 issues with cannot read property platform of undefined
 platform, restructured to darwin
@@ -109,12 +110,25 @@ ipcMain.on('open-file-dialog-for-file', function (event) {
             });
 }});
 */
-//currently working
+//Choose File Button
 ipcMain.on('open-file-dialog-for-file', function (event) {
     dialog.showOpenDialog({
             properties: ['openFile']
         }, function (files) {
             if (files) event.sender.send('selected-file', files[0]);
+            console.log(files[0]);
+            let txtFile = files[0];
+        });
+});
+
+console.log(txtFile);
+
+//Choose Folder Button
+ipcMain.on('open-folder-dialog-for-folder', function (event) {
+    dialog.showOpenDialog({
+            properties: ['openDirectory']
+        }, function (folder) {
+            if (folder) event.sender.send('selected-folder', folder[0]);
         });
 });
 
