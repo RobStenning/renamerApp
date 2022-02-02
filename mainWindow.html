@@ -76,7 +76,8 @@
     function message(event){
         event.preventDefault();
         console.log('running renamer');
-        console.log(txtFile);
+        ipc.send('rename');
+        //console.log(txtFile);
     }
     const renameSubmit = document.querySelector('#rename');
     renameSubmit.addEventListener('submit', message);

@@ -1,7 +1,9 @@
+const runRenamer = () => { 
 //reads txt file
 var fs = require('fs');
 const { type } = require('os');
 // orignal var data = fs.readFileSync('test.txt', 'utf8');
+let txtFile = 'test.txt';
 var data = fs.readFileSync(txtFile, 'utf8');
 
 //splits string into an array using the " as the break point
@@ -22,7 +24,7 @@ const newSheetNumbers = sheetNumbers.map(i => i + '.pdf')
 //defines an empty array to store the current pdf names in
 let pdfNames = [];
 //defines the folder to collect cuurent PDF names from 
-let renameDirectory = './pdf';
+let renameDirectory = 'C:/Users/Robert Stenning/Desktop/pdf';
 //function to get current filenames in renameDirectory
 function getCurrentFilenames() {
     console.log("Current filenames:");
@@ -80,7 +82,11 @@ if (i < newSheetNumbers.length &&  j < pdfNames.length){
     console.log('Sheets RENAMED!')
     getCurrentFilenames();
 };
+};
 
+exports.runRenamer = runRenamer;
+
+//runRenamer();
 
 /*
 <<<<<<<<<< ALL CODE ABOVE FOR PROGRAM, BELOW THIS LINE IS SNIPPETS >>>>>>>>>>>>

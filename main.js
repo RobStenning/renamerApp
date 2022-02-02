@@ -2,6 +2,11 @@ const electron = require('electron');
 const url = require('url');
 const path = require('path');
 
+const renamer = require('./renamer');
+function run(){
+    renamer.runRenamer();
+};
+
 const {app, BrowserWindow, Menu, ipcMain, dialog, os} = electron;
 
 let mainWindow;
@@ -116,12 +121,12 @@ ipcMain.on('open-file-dialog-for-file', function (event) {
             properties: ['openFile']
         }, function (files) {
             if (files) event.sender.send('selected-file', files[0]);
-            console.log(files[0]);
-            let txtFile = files[0];
+            let txtFile = files[0];        
+            console.log(txtFile);
         });
 });
 
-console.log(txtFile);
+//console.log(txtFile);
 
 //Choose Folder Button
 ipcMain.on('open-folder-dialog-for-folder', function (event) {
@@ -131,6 +136,13 @@ ipcMain.on('open-folder-dialog-for-folder', function (event) {
             if (folder) event.sender.send('selected-folder', folder[0]);
         });
 });
+
+//rename button
+ipcMain.on('rename', function (event) {
+        console.log('woulda run')
+        run();
+});
+
 
 //menu template
 const mainMenuTemplate = [
