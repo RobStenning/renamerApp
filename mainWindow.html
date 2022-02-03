@@ -11,7 +11,7 @@
         <form id="setCode">Current project code: <a id="code">XXXXX</a>
             <br>
             <input type="text" id="projectcode" placeholder="XXXXX">
-            <button type="submit">SET</button>
+            <button type="submit" id="submitprojectcode">SET</button>
         </form>
     </div>
     <br>
@@ -33,12 +33,12 @@
     </div>
 <script>
     const ipc = require('electron').ipcRenderer;
-
+/*
     //set project code form   
     function setCode(event){
         event.preventDefault();
         const projectcode = document.querySelector('#projectcode').value;
-        //ipcRenderer.send('projectcode:add', projectcode);
+        //ipc.send('projectcode:add', projectcode);
         //ipcRenderer.on('projectcode:add', function(event, projectcode){
         const setProjectCode = document.querySelector('#code');
         console.log(projectcode);
@@ -46,21 +46,14 @@
         //console.log(setProjectCode);
         //setProjectCode.innerHTML = projectcode;
     }
+    */
     
-    //SET code button
-    const setCodeForm = document.querySelector('#setCode');
-    setCodeForm.addEventListener('submit', setCode);
-
-    //Choose File Button
-    const txtButton = document.getElementById('txtFileLocation');
-    txtButton.addEventListener('click', function (event) {
-        ipc.send('open-file-dialog-for-file')
-    });
-
+/*
     ipc.on('selected-file', function (event, path) {
     console.log('Full path: ', path);
     document.getElementById('currentFile').innerHTML = path;
 });
+*/
 
     //Choose Folder Button
     const folderButton = document.getElementById('pdfFolderLocation');
@@ -83,7 +76,14 @@
     renameSubmit.addEventListener('submit', message);
 
     //test areas
+//code button
+const submitCodeSet = document.getElementById('submitprojectcode');
+const setCode = document.getElementById('projectcode');
 
+submitCodeSet.addEventListener('click', function (event) {
+        event.preventDefault();
+        ipc.send('projectcode-set')
+});
 
 </script>
 

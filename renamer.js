@@ -3,6 +3,13 @@ const runRenamer = () => {
 var fs = require('fs');
 const { type } = require('os');
 // orignal var data = fs.readFileSync('test.txt', 'utf8');
+//access data from main.js
+const getProjectCode = require('./main');
+function ProjectCode(){
+    getProjectCode.projectcode();
+};
+ProjectCode();
+
 let txtFile = 'test.txt';
 var data = fs.readFileSync(txtFile, 'utf8');
 

@@ -10,7 +10,7 @@ function run(){
 const {app, BrowserWindow, Menu, ipcMain, dialog, os} = electron;
 
 let mainWindow;
-let addWindow;
+//let addWindow;
 process.on('uncaughtException', function (error) {
     console.log(error)
 })
@@ -34,11 +34,13 @@ app.on('ready', function() {
     //insert menu
     Menu.setApplicationMenu(mainMenu);
 });
-
+/*
 //default pop up window size
 const defaultWidth = 350
 const defaultHeight = 150
+*/
 
+/*
 //create project code window
 function createprojectCodeWindow(){
     //create new window
@@ -57,17 +59,13 @@ function createprojectCodeWindow(){
     projectCodeWindow.on('close', function(){
         addWindow = null;
     })
+    }
+    */
 
 
-//catch projectcode
-ipcMain.on('projectcode:add', function(event, projectcode){
-    console.log(projectcode);
-    mainWindow.webContents.send('projectcode:add', projectcode);
-    projectCodeWindow.close();
-})
-}
+/*
 //create selectFolder location window
-function createSelectFolderWindow(){
+    function createSelectFolderWindow(){
     //create new window
     const selectFolderWindow = new BrowserWindow({
         width: defaultWidth,
@@ -84,39 +82,24 @@ function createSelectFolderWindow(){
     selectFolderWindow.on('close', function(){
         addWindow = null;
     })
-
-//catch folderLocation
-ipcMain.on('folderlocation:add', function(event, folderlocation){
+    */
+/*
+    //catch folderLocation
+    ipcMain.on('folderlocation:add', function(event, folderlocation){
     console.log(folderlocation);
     mainWindow.webContents.send('folderlocation:add', folderlocation);
     selectFolderWindow.close();
     })
-}
-
-//test button area
-/*
-extra code to handle platform, to look into
-issues with os defined in require
-issues with cannot read property platform of undefined
-platform, restructured to darwin
-
-ipcMain.on('open-file-dialog-for-file', function (event) {
-    if(os.platform() === 'linux' || os.platform() === 'win32'){
-        dialog.showOpenDialog({
-            properties: ['openFile']
-        }, function (files) {
-            if (files) event.sender.send('selected-file', files[0]);
-        });
-    } else {
-            dialog.showOpenDialog({
-                properties: ['openFiles', 'openDirectory']
-            }, function (files) {
-                if (files) event.sender.send('selected-file', file[0]);
-            });
-}});
 */
-//Choose File Button
-ipcMain.on('open-file-dialog-for-file', function (event) {
+//catch projectcode
+ipcMain.on('projectcode-set', function (event) {
+    console.log('set the code!');
+    //mainWindow.webContents.send('projectcode:add', projectcode);
+    //projectCodeWindow.close();
+    });
+
+    //Choose File Button
+    ipcMain.on('open-file-dialog-for-file', function (event) {
     dialog.showOpenDialog({
             properties: ['openFile']
         }, function (files) {
@@ -124,12 +107,12 @@ ipcMain.on('open-file-dialog-for-file', function (event) {
             let txtFile = files[0];        
             console.log(txtFile);
         });
-});
+    });
 
-//console.log(txtFile);
+    //console.log(txtFile);
 
 //Choose Folder Button
-ipcMain.on('open-folder-dialog-for-folder', function (event) {
+    ipcMain.on('open-folder-dialog-for-folder', function (event) {
     dialog.showOpenDialog({
             properties: ['openDirectory']
         }, function (folder) {
@@ -138,29 +121,16 @@ ipcMain.on('open-folder-dialog-for-folder', function (event) {
 });
 
 //rename button
-ipcMain.on('rename', function (event) {
+ipcMain.on('rename', function () {
         console.log('woulda run')
         run();
 });
-
 
 //menu template
 const mainMenuTemplate = [
     {
     label: 'File',
     submenu:[
-        {
-            label: 'project code',
-            click(){
-                createprojectCodeWindow();
-            }
-        },
-        {
-            label: 'txt file location'
-        },
-        {
-            label: 'pdf folder location'
-        },
         {
             label: 'Quit',
             accelerator: process.platform == 'darwin' ? 'Command+Q' : 'Ctrl+Q',
@@ -169,12 +139,6 @@ const mainMenuTemplate = [
                 }
             }
         ]
-    },
-    {
-        label: 'Select Folder',
-        click(){
-            createSelectFolderWindow();
-        }
     }
 ];
 
@@ -201,3 +165,27 @@ if(process.env.NODE_ENV !== 'production'){
         ]
     });
 };
+
+
+//test button area
+/*
+extra code to handle platform, to look into
+issues with os defined in require
+issues with cannot read property platform of undefined
+platform, restructured to darwin
+
+ipcMain.on('open-file-dialog-for-file', function (event) {
+    if(os.platform() === 'linux' || os.platform() === 'win32'){
+        dialog.showOpenDialog({
+            properties: ['openFile']
+        }, function (files) {
+            if (files) event.sender.send('selected-file', files[0]);
+        });
+    } else {
+            dialog.showOpenDialog({
+                properties: ['openFiles', 'openDirectory']
+            }, function (files) {
+                if (files) event.sender.send('selected-file', file[0]);
+            });
+    }});
+    */
