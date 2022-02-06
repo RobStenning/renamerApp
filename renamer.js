@@ -1,15 +1,10 @@
+let exportedprojectCode  = require('./main');
+let projectCode = exportedprojectCode.projectCode;
 const runRenamer = () => { 
 //reads txt file
 var fs = require('fs');
-const { type } = require('os');
-// orignal var data = fs.readFileSync('test.txt', 'utf8');
-//access data from main.js
-const getProjectCode = require('./main');
-function ProjectCode(){
-    getProjectCode.projectcode();
-};
-ProjectCode();
 
+const { type } = require('os');
 let txtFile = 'test.txt';
 var data = fs.readFileSync(txtFile, 'utf8');
 
@@ -22,8 +17,8 @@ let importedData = data.split('"');
 const sheetData = importedData.filter(sheetIsNotBlank => sheetIsNotBlank.length > 2);
 
 //creates new array by filtering array for projectCode
-let projectCode = 'MUM1X0';
-const sheetNumbers = sheetData.filter(sheetCheck => sheetCheck.includes(projectCode));
+//let projectCode = 'MUM1X0';
+const sheetNumbers = sheetData.filter(sheetCheck => sheetCheck.includes(exportedprojectCode));
 
 //creates new array with .pdf appended
 const newSheetNumbers = sheetNumbers.map(i => i + '.pdf')
@@ -40,6 +35,10 @@ function getCurrentFilenames() {
         console.log(file);
     });
   }
+  
+console.log(projectCode);
+console.log(exportedprojectCode);
+console.log(exportedprojectCode.value);
 getCurrentFilenames();
 
 //while loop to loop through newSheetNumbers vs pdfNames

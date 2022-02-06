@@ -34,74 +34,25 @@ app.on('ready', function() {
     //insert menu
     Menu.setApplicationMenu(mainMenu);
 });
-/*
-//default pop up window size
-const defaultWidth = 350
-const defaultHeight = 150
-*/
 
-/*
-//create project code window
-function createprojectCodeWindow(){
-    //create new window
-    projectCodeWindow = new BrowserWindow({
-        width: defaultWidth,
-        height: defaultHeight,
-        title: 'Specify the project code'    
-    });
-    //load html file
-    projectCodeWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'projectCodeWindow.html'),
-        protocol: 'file',
-        slashes: true
-    }));
-    //garbage collection, saves memory?
-    projectCodeWindow.on('close', function(){
-        addWindow = null;
-    })
-    }
-    */
-
-
-/*
-//create selectFolder location window
-    function createSelectFolderWindow(){
-    //create new window
-    const selectFolderWindow = new BrowserWindow({
-        width: defaultWidth,
-        height: defaultHeight,
-        title: 'Specify the txt file location'
-    });
-    //load html file
-    selectFolderWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'selectFolderWindow.html'),
-        protocol: 'file',
-        slashes: true
-    }));
-    //garbage collection, saves memory?
-    selectFolderWindow.on('close', function(){
-        addWindow = null;
-    })
-    */
-/*
-    //catch folderLocation
-    ipcMain.on('folderlocation:add', function(event, folderlocation){
-    console.log(folderlocation);
-    mainWindow.webContents.send('folderlocation:add', folderlocation);
-    selectFolderWindow.close();
-    })
-*/
 //catch projectcode
-ipcMain.on('projectcode-set', function (event) {
-    console.log('set the code!');
-    //mainWindow.webContents.send('projectcode:add', projectcode);
-    //projectCodeWindow.close();
+let projectCode = 'XXXXX';
+
+ipcMain.on('projectcode-set', function (event, data) {
+    console.log(projectCode);
+    console.log(data);
+    function setProjectCode(data){
+        projectCode = data;
+    }
+    setProjectCode();
+    console.log('set the code to:');
+    console.log(data);
     });
 
-    //Choose File Button
+//choose file button
     ipcMain.on('open-file-dialog-for-file', function (event) {
     dialog.showOpenDialog({
-            properties: ['openFile']
+        properties: ['openFile']
         }, function (files) {
             if (files) event.sender.send('selected-file', files[0]);
             let txtFile = files[0];        
@@ -109,14 +60,14 @@ ipcMain.on('projectcode-set', function (event) {
         });
     });
 
-    //console.log(txtFile);
-
-//Choose Folder Button
+//choose folder button
     ipcMain.on('open-folder-dialog-for-folder', function (event) {
     dialog.showOpenDialog({
             properties: ['openDirectory']
         }, function (folder) {
             if (folder) event.sender.send('selected-folder', folder[0]);
+            folderLocation = folder[0];
+            console.log(folderLocation);
         });
 });
 
@@ -166,6 +117,7 @@ if(process.env.NODE_ENV !== 'production'){
     });
 };
 
+module.exports.eportedprojectCode = projectCode;
 
 //test button area
 /*

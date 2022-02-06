@@ -33,6 +33,54 @@
     </div>
 <script>
     const ipc = require('electron').ipcRenderer;
+
+//project code button
+const submitCodeSet = document.getElementById('submitprojectcode');
+const setCode = document.getElementById('projectcode');
+
+submitCodeSet.addEventListener('click', function (event, data) {
+        event.preventDefault();
+        data = document.getElementById('code').innerHTML = setCode.value;
+        console.log(data);
+        ipc.send('projectcode-set', data);
+});
+
+//choose file button
+
+const txtButton = document.getElementById('txtFileLocation');
+    txtButton.addEventListener('click', function (event) {
+        ipc.send('open-file-dialog-for-file')
+    });
+
+    ipc.on('selected-file', function (event, path) {
+    console.log('Full path: ', path);
+    document.getElementById('currentFile').innerHTML = path;
+});
+
+//choose folder button
+    const folderButton = document.getElementById('pdfFolderLocation');
+    folderButton.addEventListener('click', function (event) {
+        ipc.send('open-folder-dialog-for-folder');
+    });
+
+    ipc.on('selected-folder', function (event, folderPath) {
+    console.log('Full path: ', folderPath);
+    document.getElementById('currentFolder').innerHTML = folderPath;
+});
+    //RENAME button - needs work
+    function message(event){
+        event.preventDefault();
+        console.log('running renamer');
+        ipc.send('rename');
+        //console.log(txtFile);
+    }
+    const renameSubmit = document.querySelector('#rename');
+    renameSubmit.addEventListener('submit', message);
+
+    //test areas
+
+
+
 /*
     //set project code form   
     function setCode(event){
@@ -54,36 +102,6 @@
     document.getElementById('currentFile').innerHTML = path;
 });
 */
-
-    //Choose Folder Button
-    const folderButton = document.getElementById('pdfFolderLocation');
-    folderButton.addEventListener('click', function (event) {
-        ipc.send('open-folder-dialog-for-folder');
-    });
-
-    ipc.on('selected-folder', function (event, folderPath) {
-    console.log('Full path: ', folderPath);
-    document.getElementById('currentFolder').innerHTML = folderPath;
-});
-    //RENAME button - needs work
-    function message(event){
-        event.preventDefault();
-        console.log('running renamer');
-        ipc.send('rename');
-        //console.log(txtFile);
-    }
-    const renameSubmit = document.querySelector('#rename');
-    renameSubmit.addEventListener('submit', message);
-
-    //test areas
-//code button
-const submitCodeSet = document.getElementById('submitprojectcode');
-const setCode = document.getElementById('projectcode');
-
-submitCodeSet.addEventListener('click', function (event) {
-        event.preventDefault();
-        ipc.send('projectcode-set')
-});
 
 </script>
 
