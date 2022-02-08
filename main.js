@@ -37,6 +37,7 @@ app.on('ready', function() {
 
 //catch projectcode
 let projectCode = 'XXXXX';
+let data = '';
 
 ipcMain.on('projectcode-set', function (event, data) {
     console.log(projectCode);
@@ -117,7 +118,7 @@ if(process.env.NODE_ENV !== 'production'){
     });
 };
 
-module.exports.eportedprojectCode = projectCode;
+module.exports = { projectCode: 'blank' };
 
 //test button area
 /*

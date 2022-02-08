@@ -1,12 +1,22 @@
-let exportedprojectCode  = require('./main');
-let projectCode = exportedprojectCode.projectCode;
-const runRenamer = () => { 
-//reads txt file
-var fs = require('fs');
 
+//let projectCode = exportedprojectCode.projectCode;
+const runRenamer = () => { 
+
+    let main = require('./main.js');
+    console.log('renamer running;')
+    console.log('code from main');
+    console.log(main.projectCode);
+    let projectCode = main.projectCode;
+    console.log('code from renamer');
+    console.log(projectCode);
+
+    //reads txt file
+var fs = require('fs');
 const { type } = require('os');
 let txtFile = 'test.txt';
 var data = fs.readFileSync(txtFile, 'utf8');
+
+
 
 //splits string into an array using the " as the break point
 //this gives us data on every odd number, every even number is a blank
@@ -18,7 +28,7 @@ const sheetData = importedData.filter(sheetIsNotBlank => sheetIsNotBlank.length 
 
 //creates new array by filtering array for projectCode
 //let projectCode = 'MUM1X0';
-const sheetNumbers = sheetData.filter(sheetCheck => sheetCheck.includes(exportedprojectCode));
+const sheetNumbers = sheetData.filter(sheetCheck => sheetCheck.includes(projectCode));
 
 //creates new array with .pdf appended
 const newSheetNumbers = sheetNumbers.map(i => i + '.pdf')
@@ -36,9 +46,9 @@ function getCurrentFilenames() {
     });
   }
   
-console.log(projectCode);
-console.log(exportedprojectCode);
-console.log(exportedprojectCode.value);
+//console.log(projectCode);
+console.log(`project code is set to: ${projectCode}`);
+//console.log(exportedprojectCode.value);
 getCurrentFilenames();
 
 //while loop to loop through newSheetNumbers vs pdfNames
