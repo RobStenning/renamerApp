@@ -59,6 +59,7 @@ console.log(`start i=${i} & j=${j}`);
 
 //searches newSheetNumbers to see if pdfNames matches, returns true or false
 function sheetChecker(){ 
+    console.log(`sheet checker ran, Code = ${projectCode}`)
     if (newSheetNumbers[i].includes(pdfNames[j])) {
     sheetMatch = true;
     console.log(sheetMatch)

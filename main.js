@@ -37,18 +37,26 @@ app.on('ready', function() {
 
 //catch projectcode
 let projectCode = 'XXXXX';
-let data = '';
 
 ipcMain.on('projectcode-set', function (event, data) {
     console.log(projectCode);
     console.log(data);
+    setProjectCode(data);
+    console.log(projectCode);
+    /*
     function setProjectCode(data){
         projectCode = data;
-    }
-    setProjectCode();
+        console.log('set the code to:');
+        console.log(projectCode);
+        */
+    //};
+//setProjectCode();
+});
+function setProjectCode(data){
+    projectCode = data;
     console.log('set the code to:');
-    console.log(data);
-    });
+    console.log(projectCode);
+};
 
 //choose file button
     ipcMain.on('open-file-dialog-for-file', function (event) {
@@ -74,7 +82,8 @@ ipcMain.on('projectcode-set', function (event, data) {
 
 //rename button
 ipcMain.on('rename', function () {
-        console.log('woulda run')
+        console.log('woulda run');
+        console.log(projectCode);
         run();
 });
 
@@ -118,7 +127,7 @@ if(process.env.NODE_ENV !== 'production'){
     });
 };
 
-module.exports = { projectCode: 'blank' };
+module.exports = { projectCode };
 
 //test button area
 /*
