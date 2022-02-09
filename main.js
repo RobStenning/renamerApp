@@ -52,11 +52,7 @@ ipcMain.on('projectcode-set', function (event, data) {
     //};
 //setProjectCode();
 });
-function setProjectCode(data){
-    projectCode = data;
-    console.log('set the code to:');
-    console.log(projectCode);
-};
+
 
 //choose file button
     ipcMain.on('open-file-dialog-for-file', function (event) {
@@ -84,6 +80,7 @@ function setProjectCode(data){
 ipcMain.on('rename', function () {
         console.log('woulda run');
         console.log(projectCode);
+        exporter();
         run();
 });
 
@@ -127,7 +124,21 @@ if(process.env.NODE_ENV !== 'production'){
     });
 };
 
-module.exports = { projectCode };
+function setProjectCode(data){
+    projectCode = data;
+    console.log('set the code to:');
+    console.log(projectCode);
+    
+};
+
+function exporter(setProjectCode) {
+    if (projectCode !== 'XXXXX') {
+        module.exports = { projectCode };
+    } else {
+        setProjectCode();
+    }
+};
+
 
 //test button area
 /*
