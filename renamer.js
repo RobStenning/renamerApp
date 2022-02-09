@@ -1,19 +1,17 @@
-
-//let projectCode = exportedprojectCode.projectCode;
 const runRenamer = () => { 
 
     let main = require('./main.js');
     console.log('renamer running;')
-    console.log('code from main');
-    console.log(main.projectCode);
     let projectCode = main.projectCode;
-    console.log('code from renamer');
+    let txtFile = main.txtFile;
+    console.log('code from main;');
     console.log(projectCode);
+    console.log('file path from main;')
+    console.log(txtFile);
 
-    //reads txt file
+//reads txt file
 var fs = require('fs');
 const { type } = require('os');
-let txtFile = 'test.txt';
 var data = fs.readFileSync(txtFile, 'utf8');
 
 

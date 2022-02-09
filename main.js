@@ -36,34 +36,57 @@ app.on('ready', function() {
 });
 
 //catch projectcode
-let projectCode = 'XXXXX';
+let projectCode = '';
 
 ipcMain.on('projectcode-set', function (event, data) {
-    console.log(projectCode);
-    console.log(data);
     setProjectCode(data);
-    console.log(projectCode);
-    /*
-    function setProjectCode(data){
-        projectCode = data;
-        console.log('set the code to:');
-        console.log(projectCode);
-        */
-    //};
-//setProjectCode();
 });
 
+//sets project code from user selection
+function setProjectCode(data){
+    projectCode = data;
+    console.log('set the code to:');
+    console.log(projectCode);
+};
+
+//sets exported function to user selection
+function codeExporter(setProjectCode) {
+    if (projectCode !== '') {
+        module.exports = { projectCode };
+    } else {
+        console.log('code not set')
+        setProjectCode();
+    }
+};
 
 //choose file button
+let txtFile = 'blank';
     ipcMain.on('open-file-dialog-for-file', function (event) {
-    dialog.showOpenDialog({
+        dialog.showOpenDialog({
         properties: ['openFile']
         }, function (files) {
             if (files) event.sender.send('selected-file', files[0]);
             let txtFile = files[0];        
             console.log(txtFile);
+            setFileLocation(txtFile);
         });
     });
+
+    function setFileLocation(txtFile){
+        console.log('file location is;');
+        console.log(txtFile);
+};
+
+function fileExporter(setFileLocation){
+    console.log(txtFile);
+    if (txtFile !== 'blank') {
+        module.exports = { txtFile };
+    } else {
+        console.log('file location not set');
+        setFileLocation();
+    }
+}
+
 
 //choose folder button
     ipcMain.on('open-folder-dialog-for-folder', function (event) {
@@ -80,7 +103,8 @@ ipcMain.on('projectcode-set', function (event, data) {
 ipcMain.on('rename', function () {
         console.log('woulda run');
         console.log(projectCode);
-        exporter();
+        codeExporter();
+        fileExporter();
         run();
 });
 
@@ -123,22 +147,6 @@ if(process.env.NODE_ENV !== 'production'){
         ]
     });
 };
-
-function setProjectCode(data){
-    projectCode = data;
-    console.log('set the code to:');
-    console.log(projectCode);
-    
-};
-
-function exporter(setProjectCode) {
-    if (projectCode !== 'XXXXX') {
-        module.exports = { projectCode };
-    } else {
-        setProjectCode();
-    }
-};
-
 
 //test button area
 /*
