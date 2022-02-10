@@ -60,24 +60,26 @@ function codeExporter(setProjectCode) {
 };
 
 //choose file button
-let txtFile = 'blank';
+
     ipcMain.on('open-file-dialog-for-file', function (event) {
         dialog.showOpenDialog({
         properties: ['openFile']
         }, function (files) {
             if (files) event.sender.send('selected-file', files[0]);
-            let txtFile = files[0];        
+            let txtFile = files[0];
+            console.log('file path is set to')
             console.log(txtFile);
-            setFileLocation(txtFile);
         });
     });
 
-    function setFileLocation(txtFile){
+    /*function setFileLocation(txtFile){
         console.log('file location is;');
         console.log(txtFile);
-};
+        //module.exports = txtFile.file
+        };
+*/
 
-function fileExporter(setFileLocation){
+/*function fileExporter(setFileLocation){
     console.log(txtFile);
     if (txtFile !== 'blank') {
         module.exports = { txtFile };
@@ -86,7 +88,7 @@ function fileExporter(setFileLocation){
         setFileLocation();
     }
 }
-
+*/
 
 //choose folder button
     ipcMain.on('open-folder-dialog-for-folder', function (event) {
@@ -101,10 +103,9 @@ function fileExporter(setFileLocation){
 
 //rename button
 ipcMain.on('rename', function () {
-        console.log('woulda run');
+        console.log('starting renamer');
         console.log(projectCode);
         codeExporter();
-        fileExporter();
         run();
 });
 
