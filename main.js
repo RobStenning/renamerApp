@@ -105,7 +105,6 @@ ipcMain.on('rename', function () {
         console.log(txtFile);
         console.log(folderURL);
         exporter();
-        //run();
 });
 
 //menu template
