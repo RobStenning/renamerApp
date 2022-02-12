@@ -46,15 +46,15 @@ submitCodeSet.addEventListener('click', function (event, data) {
 });
 
 //choose file button
-
 const txtButton = document.getElementById('txtFileLocation');
     txtButton.addEventListener('click', function (event) {
-        ipc.send('open-file-dialog-for-file')
+        ipc.send('open-file-dialog-for-file');
     });
 
     ipc.on('selected-file', function (event, path) {
     console.log('Full path: ', path);
     document.getElementById('currentFile').innerHTML = path;
+    ipc.send('file-url', path);
 });
 
 //choose folder button
@@ -66,6 +66,7 @@ const txtButton = document.getElementById('txtFileLocation');
     ipc.on('selected-folder', function (event, folderPath) {
     console.log('Full path: ', folderPath);
     document.getElementById('currentFolder').innerHTML = folderPath;
+    ipc.send('folder-url', folderPath);
 });
     //RENAME button - needs work
     function message(event){

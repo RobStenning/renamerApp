@@ -35,9 +35,12 @@ app.on('ready', function() {
     Menu.setApplicationMenu(mainMenu);
 });
 
-//catch projectcode
+//set variables to none
 let projectCode = '';
+let txtFile = '';
+let folderURL = ''
 
+//catch projectcode
 ipcMain.on('projectcode-set', function (event, data) {
     setProjectCode(data);
 });
@@ -50,45 +53,32 @@ function setProjectCode(data){
 };
 
 //sets exported function to user selection
-function codeExporter(setProjectCode) {
-    if (projectCode !== '') {
-        module.exports = { projectCode };
+function exporter() {
+    if (projectCode !== '' && txtFile !== '' && folderURL !== '') {
+        module.exports = { projectCode, txtFile, folderURL };
+        run();
     } else {
-        console.log('code not set')
-        setProjectCode();
+        console.log('one or more options not set')
     }
 };
 
 //choose file button
-
     ipcMain.on('open-file-dialog-for-file', function (event) {
         dialog.showOpenDialog({
         properties: ['openFile']
         }, function (files) {
             if (files) event.sender.send('selected-file', files[0]);
-            let txtFile = files[0];
-            console.log('file path is set to')
-            console.log(txtFile);
         });
     });
 
-    /*function setFileLocation(txtFile){
-        console.log('file location is;');
-        console.log(txtFile);
-        //module.exports = txtFile.file
-        };
-*/
+//set file path url
+    ipcMain.on('file-url', function (event, path) {
+        setFilePath(path);
+    });
 
-/*function fileExporter(setFileLocation){
-    console.log(txtFile);
-    if (txtFile !== 'blank') {
-        module.exports = { txtFile };
-    } else {
-        console.log('file location not set');
-        setFileLocation();
-    }
-}
-*/
+    function setFilePath(path) {
+        txtFile = path;
+    };
 
 //choose folder button
     ipcMain.on('open-folder-dialog-for-folder', function (event) {
@@ -96,17 +86,26 @@ function codeExporter(setProjectCode) {
             properties: ['openDirectory']
         }, function (folder) {
             if (folder) event.sender.send('selected-folder', folder[0]);
-            folderLocation = folder[0];
-            console.log(folderLocation);
         });
 });
+
+//set folder path url
+    ipcMain.on('folder-url', function (event, folderPath) {
+        setFolderPath(folderPath);
+    });
+
+    function setFolderPath(folderPath) {
+        folderURL = folderPath;
+    };
 
 //rename button
 ipcMain.on('rename', function () {
         console.log('starting renamer');
         console.log(projectCode);
-        codeExporter();
-        run();
+        console.log(txtFile);
+        console.log(folderURL);
+        exporter();
+        //run();
 });
 
 //menu template
