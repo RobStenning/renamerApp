@@ -7,31 +7,33 @@
 </head>
 <body>
     <div>
-    <h1>RENAMER</h1>
-    <br>
-    <div>Select the project code
-        <form class="basic" id="setCode">Current project code: <a id="code">XXXXX</a>
-            <br>
-            <input type="text" id="projectcode" placeholder="XXXXX">
-            <button type="submit" id="submitprojectcode">SET</button>
+        <h1>RENAMER</h1>
+        <br>
+        <div>Select the project code
+            <form class="basic" id="setCode">Current project code: <a id="code">XXXXX</a>
+                <br>
+                <input type="text" id="projectcode" placeholder="XXXXX">
+                <button type="submit" id="submitprojectcode">SET</button>
+            </form>
+        </div>
+        <br>
+        <div>Select the txt file location</div>
+        <div>Current file: 
+            <a class="basic" id="currentFile">none</a>
+        </div>
+        <button type="file" id="txtFileLocation" accept=".txt">Choose File</button>
+        <p></p>
+        <div>Select the PDF folder location</div>
+        <div>Current file: 
+            <a class="basic" id="currentFolder">none</a>
+        </div>
+        <button type="directory" id="pdfFolderLocation">Choose Folder</button>
+        <p></p>
+        <form id="rename">
+            <button type="submit">RENAME</button>
         </form>
-    </div>
-    <br>
-    <div>Select the txt file location</div>
-    <div>Current file: 
-        <a class="basic" id="currentFile">none</a>
-    </div>
-    <button type="file" id="txtFileLocation" accept=".txt">Choose File</button>
-    <p></p>
-    <div>Select the PDF folder location</div>
-    <div>Current file: 
-        <a class="basic" id="currentFolder">none</a>
-    </div>
-    <button type="directory" id="pdfFolderLocation">Choose Folder</button>
-    <p></p>
-    <form id="rename">
-    <button type="submit">RENAME</button>
-    </form>
+        <br>
+        <div class="complete" id="success"></div>
     </div>
 <script>
     const ipc = require('electron').ipcRenderer;
@@ -45,9 +47,11 @@ submitCodeSet.addEventListener('click', function (event, data) {
         data = document.getElementById('code').innerHTML = setCode.value;
         if (data !== '') {
             document.getElementById('code').className = 'complete';
+            projectCodeSet = true;
         } else {
             document.getElementById('code').innerHTML = 'set the project code'
             document.getElementById('code').className = 'alert';
+            projectCodeSet = false;
         }
         ipc.send('projectcode-set', data);
 });
@@ -62,7 +66,8 @@ const txtButton = document.getElementById('txtFileLocation');
     console.log('Full path: ', path);
     document.getElementById('currentFile').innerHTML = path;
     ipc.send('file-url', path);
-    document.getElementById('currentFile').className = 'basic';
+    document.getElementById('currentFile').className = 'complete';
+    txtFileSet = true;
 });
 
 //choose folder button
@@ -75,38 +80,56 @@ const txtButton = document.getElementById('txtFileLocation');
     console.log('Full path: ', folderPath);
     document.getElementById('currentFolder').innerHTML = folderPath;
     ipc.send('folder-url', folderPath);
+    document.getElementById('currentFolder').className = 'complete';
+    folderLocationSet = true;
 });
     //RENAME button
     function message(event){
         event.preventDefault();
-        if (document.getElementById('code').innerHTML === 'XXXXX'
-        &&
-        document.getElementById('currentFile').innerHTML === 'none'
-        &&
-        document.getElementById('currentFolder').innerHTML === 'none'
+        if (projectCodeSet === false
+        ||
+        txtFileSet === false
+        ||
+        folderLocationSet === false
         ) {
-            document.getElementById('code').innerHTML = 'set the project code'
-            document.getElementById('code').className = 'alert';
-            document.getElementById('currentFile').className = 'alert';
-            document.getElementById('currentFolder').className = 'alert';
-            console.log('situation 1')
-
-        } else if (document.getElementById('currentFile').innerHTML === 'none') {
-            document.getElementById('currentFile').className = 'alert';
-            console.log('situation 2')
+            selectionCheck()
         } else {
-            document.getElementById('code').className = 'complete';
-            document.getElementById('currentFile').className = 'alert';
-            console.log('situation 3')
-        }
         ipc.send('rename');
-        //console.log(txtFile);
-    }
+        document.getElementById('success').innerHTML = 'RENAMED!'
+}};
+
     const renameSubmit = document.querySelector('#rename');
     renameSubmit.addEventListener('submit', message);
 
-    //test areas
+    //css logic
+    let projectCodeSet = false;
+    let txtFileSet = false;
+    let folderLocationSet = false;
 
+    function selectionCheck(){
+        switch(projectCodeSet || txtFileSet || folderLocationSet === false){
+            case projectCodeSet === false:
+                document.getElementById('code').innerHTML = 'set the project code'
+                document.getElementById('code').className = 'alert';
+                document.getElementById('success').innerHTML = ''
+                console.log(`project code = ${projectCodeSet}`);
+            break;        
+            case txtFileSet === false:
+                document.getElementById('currentFile').className = 'alert';
+                document.getElementById('success').innerHTML = ''
+                console.log(`file location = ${txtFileSet}`);
+            break;
+            case folderLocationSet === false:
+                document.getElementById('currentFolder').className = 'alert';
+                document.getElementById('success').innerHTML = ''
+                console.log(`folder location = ${folderLocationSet}`);
+            break;
+            default:
+            document.getElementById('code').className = 'alert';
+            document.getElementById('currentFile').className = 'alert';
+        }
+    }; 
+    
 
 </script>
 
