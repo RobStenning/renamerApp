@@ -19,13 +19,13 @@
     <br>
     <div>Select the txt file location</div>
     <div>Current file: 
-        <a id="currentFile">none</a>
+        <a class="basic" id="currentFile">none</a>
     </div>
     <button type="file" id="txtFileLocation" accept=".txt">Choose File</button>
     <p></p>
     <div>Select the PDF folder location</div>
     <div>Current file: 
-        <a id="currentFolder">none</a>
+        <a class="basic" id="currentFolder">none</a>
     </div>
     <button type="directory" id="pdfFolderLocation">Choose Folder</button>
     <p></p>
@@ -56,12 +56,13 @@ submitCodeSet.addEventListener('click', function (event, data) {
 const txtButton = document.getElementById('txtFileLocation');
     txtButton.addEventListener('click', function (event) {
         ipc.send('open-file-dialog-for-file');
-    });
+});
 
     ipc.on('selected-file', function (event, path) {
     console.log('Full path: ', path);
     document.getElementById('currentFile').innerHTML = path;
     ipc.send('file-url', path);
+    document.getElementById('currentFile').className = 'basic';
 });
 
 //choose folder button
@@ -75,15 +76,28 @@ const txtButton = document.getElementById('txtFileLocation');
     document.getElementById('currentFolder').innerHTML = folderPath;
     ipc.send('folder-url', folderPath);
 });
-    //RENAME button - needs work
+    //RENAME button
     function message(event){
         event.preventDefault();
-        if (document.getElementById('code').innerHTML === 'XXXXX' ||document.getElementById('code').innerHTML === '') {
+        if (document.getElementById('code').innerHTML === 'XXXXX'
+        &&
+        document.getElementById('currentFile').innerHTML === 'none'
+        &&
+        document.getElementById('currentFolder').innerHTML === 'none'
+        ) {
             document.getElementById('code').innerHTML = 'set the project code'
             document.getElementById('code').className = 'alert';
+            document.getElementById('currentFile').className = 'alert';
+            document.getElementById('currentFolder').className = 'alert';
+            console.log('situation 1')
 
+        } else if (document.getElementById('currentFile').innerHTML === 'none') {
+            document.getElementById('currentFile').className = 'alert';
+            console.log('situation 2')
         } else {
             document.getElementById('code').className = 'complete';
+            document.getElementById('currentFile').className = 'alert';
+            console.log('situation 3')
         }
         ipc.send('rename');
         //console.log(txtFile);
