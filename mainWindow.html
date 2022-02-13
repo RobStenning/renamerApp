@@ -92,6 +92,9 @@ const txtButton = document.getElementById('txtFileLocation');
         ||
         folderLocationSet === false
         ) {
+            console.log(`project code = ${projectCodeSet}`);
+            console.log(`file location = ${txtFileSet}`);
+            console.log(`folder location = ${folderLocationSet}`);
             selectionCheck()
         } else {
         ipc.send('rename');
@@ -107,7 +110,7 @@ const txtButton = document.getElementById('txtFileLocation');
     let folderLocationSet = false;
 
     function selectionCheck(){
-        switch(projectCodeSet || txtFileSet || folderLocationSet === false){
+        switch(projectCodeSet === false, txtFileSet === false, folderLocationSet === false){
             case projectCodeSet === false:
                 document.getElementById('code').innerHTML = 'set the project code'
                 document.getElementById('code').className = 'alert';
@@ -127,6 +130,7 @@ const txtButton = document.getElementById('txtFileLocation');
             default:
             document.getElementById('code').className = 'alert';
             document.getElementById('currentFile').className = 'alert';
+            document.getElementById('currentFolder').className = 'alert';
         }
     }; 
     
