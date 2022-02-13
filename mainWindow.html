@@ -2,13 +2,15 @@
 <html lang="en">
 <head>
     <title>RENAMER</title>
+    <link href="./main.css" rel="stylesheet">
+
 </head>
 <body>
     <div>
     <h1>RENAMER</h1>
     <br>
     <div>Select the project code
-        <form id="setCode">Current project code: <a id="code">XXXXX</a>
+        <form class="basic" id="setCode">Current project code: <a id="code">XXXXX</a>
             <br>
             <input type="text" id="projectcode" placeholder="XXXXX">
             <button type="submit" id="submitprojectcode">SET</button>
@@ -41,7 +43,12 @@ const setCode = document.getElementById('projectcode');
 submitCodeSet.addEventListener('click', function (event, data) {
         event.preventDefault();
         data = document.getElementById('code').innerHTML = setCode.value;
-        console.log(data);
+        if (data !== '') {
+            document.getElementById('code').className = 'complete';
+        } else {
+            document.getElementById('code').innerHTML = 'set the project code'
+            document.getElementById('code').className = 'alert';
+        }
         ipc.send('projectcode-set', data);
 });
 
@@ -71,7 +78,13 @@ const txtButton = document.getElementById('txtFileLocation');
     //RENAME button - needs work
     function message(event){
         event.preventDefault();
-        console.log('running renamer');
+        if (document.getElementById('code').innerHTML === 'XXXXX' ||document.getElementById('code').innerHTML === '') {
+            document.getElementById('code').innerHTML = 'set the project code'
+            document.getElementById('code').className = 'alert';
+
+        } else {
+            document.getElementById('code').className = 'complete';
+        }
         ipc.send('rename');
         //console.log(txtFile);
     }
