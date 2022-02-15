@@ -92,13 +92,12 @@ const txtButton = document.getElementById('txtFileLocation');
         ||
         folderLocationSet === false
         ) {
-            console.log(`project code = ${projectCodeSet}`);
-            console.log(`file location = ${txtFileSet}`);
-            console.log(`folder location = ${folderLocationSet}`);
             selectionCheck()
         } else {
         ipc.send('rename');
-        document.getElementById('success').innerHTML = 'RENAMED!'
+        document.getElementById('success').innerHTML = 'RENAMING....'
+        renamerComplete();
+
 }};
 
     const renameSubmit = document.querySelector('#rename');
@@ -110,30 +109,44 @@ const txtButton = document.getElementById('txtFileLocation');
     let folderLocationSet = false;
 
     function selectionCheck(){
-        switch(projectCodeSet === false, txtFileSet === false, folderLocationSet === false){
-            case projectCodeSet === false:
+        switch(projectCodeSet){
+            case false:
                 document.getElementById('code').innerHTML = 'set the project code'
                 document.getElementById('code').className = 'alert';
                 document.getElementById('success').innerHTML = ''
                 console.log(`project code = ${projectCodeSet}`);
-            break;        
-            case txtFileSet === false:
+            break;
+            case true:
+                console.log('code good')        
+        };
+        switch(txtFileSet){
+            case false:
                 document.getElementById('currentFile').className = 'alert';
                 document.getElementById('success').innerHTML = ''
                 console.log(`file location = ${txtFileSet}`);
             break;
-            case folderLocationSet === false:
+            case true:
+                console.log('txt good');
+        };
+        switch(folderLocationSet){
+            case false:
                 document.getElementById('currentFolder').className = 'alert';
                 document.getElementById('success').innerHTML = ''
                 console.log(`folder location = ${folderLocationSet}`);
             break;
-            default:
-            document.getElementById('code').className = 'alert';
-            document.getElementById('currentFile').className = 'alert';
-            document.getElementById('currentFolder').className = 'alert';
+            case true:
+                console.log('folder good');
         }
-    }; 
-    
+    };
+
+const renamer = require('./renamer');
+
+
+
+//test area
+/*
+
+*/
 
 </script>
 

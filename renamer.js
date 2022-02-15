@@ -101,6 +101,7 @@ if (i < newSheetNumbers.length &&  j < pdfNames.length){
     console.log('Sheets RENAMED!')
     getCurrentFilenames();
 };
+
 };
 
 exports.runRenamer = runRenamer;
