@@ -3,35 +3,37 @@
 <head>
     <title>RENAMER</title>
     <link href="./main.css" rel="stylesheet">
-
 </head>
 <body>
-    <div>
-        <h1>RENAMER</h1>
-        <br>
-        <div>Select the project code
-            <form class="basic" id="setCode">Current project code: <a id="code">XXXXX</a>
+    <div class="overall">
+        <div>
+            <h1>RENAMER</h1>
+        </div>
+        <div class="heading">Select the project code</div>
+            <div class="sub-heading">
+                <form class="basic" id="setCode">Current project code: <a id="code">XXXXX</a>
                 <br>
                 <input type="text" id="projectcode" placeholder="XXXXX">
                 <button type="submit" id="submitprojectcode">SET</button>
-            </form>
+                </form>
         </div>
-        <br>
-        <div>Select the txt file location</div>
-        <div>Current file: 
+        <div>
+        <div class="heading">Select the txt file location</div>
+        <div class="sub-heading">Current file: 
             <a class="basic" id="currentFile">none</a>
-        </div>
         <button type="file" id="txtFileLocation" accept=".txt">Choose File</button>
-        <p></p>
-        <div>Select the PDF folder location</div>
-        <div>Current file: 
+        </div>    
+        <div>
+        <div class="heading">Select the PDF folder location</div>
+        <div class="sub-heading">Current file: 
             <a class="basic" id="currentFolder">none</a>
+            <button type="directory" id="pdfFolderLocation">Choose Folder</button>
         </div>
-        <button type="directory" id="pdfFolderLocation">Choose Folder</button>
-        <p></p>
+        <div>
         <form id="rename">
             <button type="submit">RENAME</button>
         </form>
+        </div>
         <br>
         <div class="complete" id="success"></div>
     </div>

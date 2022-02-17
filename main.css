@@ -9,3 +9,21 @@
 .complete {
     color: green;
 }
+
+.overall {
+    padding: 0px 50px 50px 50px;
+}
+
+h1 { 
+    text-align: center;
+}
+
+.heading {
+    font-size: 20px;
+    border: 1px solid;
+}
+
+.sub-heading {
+    font-size: 15px;
+    padding: 0px 20px 20px 00px;
+}
