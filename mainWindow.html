@@ -148,6 +148,9 @@ const txtButton = document.getElementById('txtFileLocation');
 const renamer = require('./renamer');
 
 
+ipc.on('darkmode', function (event) {
+    console.log('darkmode activated!');
+});
 
 //test area
 /*

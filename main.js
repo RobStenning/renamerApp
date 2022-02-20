@@ -116,9 +116,19 @@ const mainMenuTemplate = [
             label: 'Quit',
             accelerator: process.platform == 'darwin' ? 'Command+Q' : 'Ctrl+Q',
             click(){
-            app.quit();
+                app.quit();
                 }
+        },
+        {
+            label: 'Dark Mode',
+            accelerator: process.platform == 'darwin' ? 'Command+D' : 'Ctrl+D',
+            click(){
+                //ipcMain.on('darkmode', function (darkmode) {
+                console.log('darkmode')
+                //}
+                //)
             }
+        }
         ]
     }
 ];

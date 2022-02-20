@@ -18,17 +18,13 @@
 h1 { 
     text-align: center;
     border-bottom: 1px solid;
-    margin-bottom: 50px;
+    margin-bottom: 60px;
 }
 
 .heading {
     border-bottom: 1px solid;
     border-color: black;
     margin-top: 20px;
-}
-
-.sub-heading {
-
 }
 
 .button {
@@ -53,7 +49,7 @@ h1 {
 }
 
 .rename {
-    margin-top: 50px;
+    margin-top: 30px;
     padding-bottom: 20px;
     text-align: center;
     border-bottom: 1px solid black;
