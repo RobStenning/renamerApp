@@ -101,6 +101,7 @@ const txtButton = document.getElementById('txtFileLocation');
         folderLocationSet === false
         ) {
             selectionCheck()
+            ipc.send('rename');
         } else {
         ipc.send('rename');
         document.getElementById('success').innerHTML = 'RENAMING....'
@@ -147,10 +148,6 @@ const txtButton = document.getElementById('txtFileLocation');
 
 const renamer = require('./renamer');
 
-
-ipc.on('darkmode', function (event) {
-    console.log('darkmode activated!');
-});
 
 //test area
 /*

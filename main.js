@@ -6,6 +6,9 @@ const renamer = require('./renamer');
 function run(){
     renamer.runRenamer();
 };
+function renamed(){
+    renamer.renamed();
+};
 
 const {app, BrowserWindow, Menu, ipcMain, dialog, os} = electron;
 
@@ -57,8 +60,9 @@ function exporter() {
     if (projectCode !== '' && txtFile !== '' && folderURL !== '') {
         module.exports = { projectCode, txtFile, folderURL };
         run();
+        renamed();
     } else {
-        console.log('one or more options not set')
+        console.log('one or more options not set');
     }
 };
 
@@ -123,7 +127,10 @@ const mainMenuTemplate = [
             label: 'Dark Mode',
             accelerator: process.platform == 'darwin' ? 'Command+D' : 'Ctrl+D',
             click(){
-                //ipcMain.on('darkmode', function (darkmode) {
+                /*ipcMain.send('darkmode', function(event){
+                    darkMode(event);
+                });
+                research how to send from app window to main*/
                 console.log('darkmode')
                 //}
                 //)
