@@ -9,30 +9,36 @@
         <div>
             <h1>RENAMER</h1>
         </div>
-        <div class="heading">Select the project code</div>
+        <div>
+            <div class="heading">
+                Select the project code
+            </div>
             <div class="sub-heading">
-                <form class="basic" id="setCode">Current project code: <a id="code">XXXXX</a>
-                <br>
-                <input type="text" id="projectcode" placeholder="XXXXX">
-                <button type="submit" id="submitprojectcode">SET</button>
-                </form>
+            <form class="basic" id="setCode">Current project code: <a id="code">XXXXX</a>
+            </div>
+                <div>
+                    <input type="text" id="projectcode" placeholder="XXXXX">
+                    <button class="button" type="submit" id="submitprojectcode">SET</button>
+                </div>
+            </form>
         </div>
         <div>
         <div class="heading">Select the txt file location</div>
         <div class="sub-heading">Current file: 
             <a class="basic" id="currentFile">none</a>
-        <button type="file" id="txtFileLocation" accept=".txt">Choose File</button>
-        </div>    
+        </div>
+            <button class="button" type="file" id="txtFileLocation" accept=".txt">FILE</button>
+            
         <div>
         <div class="heading">Select the PDF folder location</div>
-        <div class="sub-heading">Current file: 
+        <div class="sub-heading">Current folder: 
             <a class="basic" id="currentFolder">none</a>
-            <button type="directory" id="pdfFolderLocation">Choose Folder</button>
-        </div>
-        <div>
-        <form id="rename">
-            <button type="submit">RENAME</button>
-        </form>
+        </div>    
+            <button class="button" type="directory" id="pdfFolderLocation">FOLDER</button>
+        <div class="rename">
+            <form id="rename">
+                <button class="button" type="submit">RENAME</button>
+            </form>
         </div>
         <br>
         <div class="complete" id="success"></div>

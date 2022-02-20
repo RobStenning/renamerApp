@@ -12,18 +12,31 @@
 
 .overall {
     padding: 0px 50px 50px 50px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 2rem;
 }
 
 h1 { 
     text-align: center;
+    border-bottom: 1px solid;
+    margin-bottom: 50px;
 }
 
 .heading {
-    font-size: 20px;
-    border: 1px solid;
+    border-bottom: 1px solid;
+    border-color: black;
+    margin-top: 20px;
 }
 
 .sub-heading {
-    font-size: 15px;
-    padding: 0px 20px 20px 00px;
+
+}
+
+.button {
+    background-color: white;
+}
+
+.rename {
+    margin-top: 50px;
+    text-align: center;
 }
