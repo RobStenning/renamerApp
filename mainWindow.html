@@ -4,8 +4,8 @@
     <title>RENAMER</title>
     <link href="./main.css" rel="stylesheet">
 </head>
-<body>
-    <div class="overall">
+<body class="light-theme || dark-theme">
+    <div class="overall-light || overall-dark">
         <div>
             <h1>RENAMER</h1>
         </div>
@@ -145,6 +145,14 @@ const txtButton = document.getElementById('txtFileLocation');
                 console.log('folder good');
         }
     };
+
+    //darkmode
+
+    let darkmode = false;
+
+    ipc.on('darkmode', function (){
+        document.body.classList.toggle('dark-theme')
+    });
 
 const renamer = require('./renamer');
 

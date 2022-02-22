@@ -1,3 +1,7 @@
+body {
+    background-color: yellow;
+}
+
 .basic {
     color: black;
 }
@@ -10,7 +14,11 @@
     color: green;
 }
 
-.overall {
+.overall-light {
+    padding: 10px 50px 0px 50px;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+}
+.overall-dark {
     padding: 10px 50px 0px 50px;
     font-family: 'Segoe UI', Tahoma, sans-serif;
 }
@@ -53,4 +61,11 @@ h1 {
     padding-bottom: 20px;
     text-align: center;
     border-bottom: 1px solid black;
+}
+
+
+/* darkmode */
+
+body.dark-theme {
+    background-color: black;
 }

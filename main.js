@@ -132,6 +132,7 @@ const mainMenuTemplate = [
                 });
                 research how to send from app window to main*/
                 console.log('darkmode')
+                mainWindow.webContents.send('darkmode')
                 //}
                 //)
             }
