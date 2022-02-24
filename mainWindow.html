@@ -4,10 +4,10 @@
     <title>RENAMER</title>
     <link href="./main.css" rel="stylesheet">
 </head>
-<body class="light-theme || dark-theme">
-    <div class="overall-light || overall-dark">
+<body class="light-theme">
+    <div class="overall-light">
         <div>
-            <h1>RENAMER</h1>
+            <h1 class="light-theme">RENAMER</h1>
         </div>
         <div>
             <div class="heading">
@@ -148,10 +148,26 @@ const txtButton = document.getElementById('txtFileLocation');
 
     //darkmode
 
-    let darkmode = false;
+    //let darkmode = false;
 
     ipc.on('darkmode', function (){
-        document.body.classList.toggle('dark-theme')
+        //document.body.classList.toggle('dark-theme')
+        let overallLight = document.getElementsByClassName('overall-light')[0];
+        let headingLight = document.getElementsByClassName('heading');
+        let lightTheme = document.getElementsByClassName('light-theme');
+        let basicLight = document.getElementsByClassName('basic')[0];
+        let renameLight = document.getElementsByClassName('rename')[0];
+        
+    
+        overallLight.classList.toggle('overall-dark');
+        headingLight[0].classList.toggle('heading-dark');
+        headingLight[1].classList.toggle('heading-dark');
+        headingLight[2].classList.toggle('heading-dark');
+        lightTheme[0].classList.toggle('dark-theme');
+        lightTheme[1].classList.toggle('dark-theme');
+        basicLight.classList.toggle('basic-dark');
+        renameLight.classList.toggle('rename-dark');
+        
     });
 
 const renamer = require('./renamer');
