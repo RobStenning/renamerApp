@@ -12,6 +12,10 @@ function renamed(){
 
 const {app, BrowserWindow, Menu, ipcMain, dialog, os} = electron;
 
+
+//set environment, (toggle Dev Tools)
+process.env.NODE_ENV = 'production';
+
 let mainWindow;
 //let addWindow;
 process.on('uncaughtException', function (error) {
@@ -118,7 +122,7 @@ ipcMain.on('rename', function () {
 //menu template
 const mainMenuTemplate = [
     {
-    label: 'File',
+    label: 'Options',
     submenu:[
         {
             label: 'Quit',
