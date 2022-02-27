@@ -20,8 +20,12 @@ process.on('uncaughtException', function (error) {
 //listen for app ready
 app.on('ready', function() {
     //create new window
-    mainWindow = new BrowserWindow({});
-    //load html file
+    mainWindow = new BrowserWindow({
+        width: 500,
+        resizable: false,
+    });
+       
+//load html file
     mainWindow.loadURL(url.format({
         pathname: path.join(__dirname, 'mainWindow.html'),
         protocol: 'file',
@@ -126,18 +130,11 @@ const mainMenuTemplate = [
         {
             label: 'Dark Mode',
             accelerator: process.platform == 'darwin' ? 'Command+D' : 'Ctrl+D',
-            click(){
-                /*ipcMain.send('darkmode', function(event){
-                    darkMode(event);
-                });
-                research how to send from app window to main*/
-                console.log('darkmode')
+            click(){              
                 mainWindow.webContents.send('darkmode')
-                //}
-                //)
             }
         }
-        ]
+    ]
     }
 ];
 
@@ -164,26 +161,3 @@ if(process.env.NODE_ENV !== 'production'){
         ]
     });
 };
-
-//test button area
-/*
-extra code to handle platform, to look into
-issues with os defined in require
-issues with cannot read property platform of undefined
-platform, restructured to darwin
-
-ipcMain.on('open-file-dialog-for-file', function (event) {
-    if(os.platform() === 'linux' || os.platform() === 'win32'){
-        dialog.showOpenDialog({
-            properties: ['openFile']
-        }, function (files) {
-            if (files) event.sender.send('selected-file', files[0]);
-        });
-    } else {
-            dialog.showOpenDialog({
-                properties: ['openFiles', 'openDirectory']
-            }, function (files) {
-                if (files) event.sender.send('selected-file', file[0]);
-            });
-    }});
-    */
