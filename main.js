@@ -14,7 +14,7 @@ const {app, BrowserWindow, Menu, ipcMain, dialog, os} = electron;
 
 
 //set environment, (toggle Dev Tools)
-process.env.NODE_ENV = 'production';
+//process.env.NODE_ENV = 'production';
 
 let mainWindow;
 //let addWindow;
@@ -26,7 +26,11 @@ app.on('ready', function() {
     //create new window
     mainWindow = new BrowserWindow({
         width: 500,
-        resizable: false,
+        resizable: true,
+    webPreferences: {
+        nodeIntegration: true,
+        contextIsolation: false
+    }
     });
        
 //load html file
