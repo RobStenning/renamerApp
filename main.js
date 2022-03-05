@@ -83,17 +83,21 @@ function exporter() {
         dialog.showOpenDialog({
         properties: ['openFile']
         }, function (files) {
+            console.log('working');
             if (files) event.sender.send('selected-file', files[0]);
+            console.log('working')
         });
     });
 
 //set file path url
     ipcMain.on('file-url', function (event, path) {
         setFilePath(path);
+        console.log('working')
     });
 
     function setFilePath(path) {
         txtFile = path;
+        console.log('working')
     };
 
 //choose folder button
