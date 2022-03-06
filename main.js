@@ -79,7 +79,7 @@ function exporter() {
 };
 
 //choose file button
-    ipcMain.on('open-file-dialog-for-file', function (event) {
+/*    ipcMain.on('open-file-dialog-for-file', function (event) {
         dialog.showOpenDialog({
         properties: ['openFile']
         }, function (files) {
@@ -88,6 +88,31 @@ function exporter() {
             console.log('working')
         });
     });
+*/
+
+/*
+ipcMain.on('open-file-dialog-for-file', function (event, callback) {
+    electron.dialog.showOpenDialog({
+     properties: ['openFile']
+    }, function (files) {
+     if (files)
+      event.sender.send(callback, files)
+      console.log(files);
+    })
+   });
+   */
+   ipcMain.on('open-file-dialog-for-file', function (event) {
+   dialog.showOpenDialog({
+       properties: ['openFile'] }).then(function (response) {
+       if (!response.canceled) {
+           // handle fully qualified file name
+         console.log(response.filePaths[0]);
+         event.sender.send('selected-file', response.filePaths[0]);
+       } else {
+         console.log("no file selected");
+       }
+   });
+});
 
 //set file path url
     ipcMain.on('file-url', function (event, path) {
@@ -101,13 +126,28 @@ function exporter() {
     };
 
 //choose folder button
-    ipcMain.on('open-folder-dialog-for-folder', function (event) {
+/*  
+ipcMain.on('open-folder-dialog-for-folder', function (event) {
     dialog.showOpenDialog({
             properties: ['openDirectory']
         }, function (folder) {
             if (folder) event.sender.send('selected-folder', folder[0]);
         });
 });
+*/
+
+ipcMain.on('open-folder-dialog-for-folder', function (event) {
+    dialog.showOpenDialog({
+        properties: ['openDirectory'] }).then(function (response) {
+        if (!response.canceled) {
+            // handle fully qualified file name
+          console.log(response.filePaths[0]);
+          event.sender.send('selected-folder', response.filePaths[0]);
+        } else {
+          console.log("no folder selected");
+        }
+    });
+ });
 
 //set folder path url
     ipcMain.on('folder-url', function (event, folderPath) {
@@ -142,7 +182,7 @@ const mainMenuTemplate = [
         {
             label: 'Dark Mode',
             accelerator: process.platform == 'darwin' ? 'Command+D' : 'Ctrl+D',
-            click(){              
+            click(){   
                 mainWindow.webContents.send('darkmode')
             }
         }

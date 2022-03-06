@@ -68,7 +68,6 @@ submitCodeSet.addEventListener('click', function (event, data) {
 const txtButton = document.getElementById('txtFileLocation');
     txtButton.addEventListener('click', function (event) {
         ipc.send('open-file-dialog-for-file');
-        console.log('working')
 });
 
     ipc.on('selected-file', function (event, path) {
