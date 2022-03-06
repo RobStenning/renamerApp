@@ -2,67 +2,83 @@
 <html lang="en">
 <head>
     <title>RENAMER</title>
+    <link href="./main.css" rel="stylesheet">
 </head>
-<body>
-    <div>
-    <h1>RENAMER</h1>
-    <br>
-    <div>Select the project code
-        <form id="setCode">Current project code: <a id="code">XXXXX</a>
-            <br>
-            <input type="text" id="projectcode" placeholder="XXXXX">
-            <button type="submit">SET</button>
-        </form>
-    </div>
-    <br>
-    <div>Select the txt file location</div>
-    <div>Current file: 
-        <a id="currentFile">none</a>
-    </div>
-    <button type="file" id="txtFileLocation" accept=".txt">Choose File</button>
-    <p></p>
-    <div>Select the PDF folder location</div>
-    <div>Current file: 
-        <a id="currentFolder">none</a>
-    </div>
-    <button type="directory" id="pdfFolderLocation">Choose Folder</button>
-    <p></p>
-    <form id="rename">
-    <button type="submit">RENAME</button>
-    </form>
+<body class="light-theme">
+    <div class="overall-light">
+        <div>
+            <h1 class="light-theme">RENAMER</h1>
+        </div>
+        <div>
+            <div class="heading">
+                Select the project code
+            </div>
+            <div class="sub-heading">
+            <form class="basic" id="setCode">Current project code: <a id="code">XXXXX</a>
+            </div>
+                <div>
+                    <input type="text" id="projectcode" placeholder="XXXXX">
+                    <button class="button" type="submit" id="submitprojectcode">SET</button>
+                </div>
+            </form>
+        </div>
+        <div>
+        <div class="heading">Select the txt file location</div>
+        <div class="sub-heading">Current file: 
+            <a class="basic" id="currentFile">none</a>
+        </div>
+            <button class="button" type="file" id="txtFileLocation" accept=".txt">FILE</button>
+            
+        <div>
+        <div class="heading">Select the PDF folder location</div>
+        <div class="sub-heading">Current folder: 
+            <a class="basic" id="currentFolder">none</a>
+        </div>    
+            <button class="button" type="directory" id="pdfFolderLocation">FOLDER</button>
+        <div class="rename">
+            <form id="rename">
+                <button class="button" type="submit">RENAME</button>
+            </form>
+        </div>
+        <br>
+        <div class="complete" id="success"></div>
     </div>
 <script>
     const ipc = require('electron').ipcRenderer;
 
-    //set project code form   
-    function setCode(event){
-        event.preventDefault();
-        const projectcode = document.querySelector('#projectcode').value;
-        //ipcRenderer.send('projectcode:add', projectcode);
-        //ipcRenderer.on('projectcode:add', function(event, projectcode){
-        const setProjectCode = document.querySelector('#code');
-        console.log(projectcode);
-        setProjectCode.innerHTML = projectcode;
-        //console.log(setProjectCode);
-        //setProjectCode.innerHTML = projectcode;
-    }
-    
-    //SET code button
-    const setCodeForm = document.querySelector('#setCode');
-    setCodeForm.addEventListener('submit', setCode);
+//project code button
+const submitCodeSet = document.getElementById('submitprojectcode');
+const setCode = document.getElementById('projectcode');
 
-    //Choose File Button
-    const txtButton = document.getElementById('txtFileLocation');
+submitCodeSet.addEventListener('click', function (event, data) {
+        event.preventDefault();
+        data = document.getElementById('code').innerHTML = setCode.value;
+        if (data !== '') {
+            document.getElementById('code').className = 'complete';
+            projectCodeSet = true;
+        } else {
+            document.getElementById('code').innerHTML = 'set the project code'
+            document.getElementById('code').className = 'alert';
+            projectCodeSet = false;
+        }
+        ipc.send('projectcode-set', data);
+});
+
+//choose file button
+const txtButton = document.getElementById('txtFileLocation');
     txtButton.addEventListener('click', function (event) {
-        ipc.send('open-file-dialog-for-file')
-    });
+        ipc.send('open-file-dialog-for-file');
+});
 
     ipc.on('selected-file', function (event, path) {
     console.log('Full path: ', path);
     document.getElementById('currentFile').innerHTML = path;
+    ipc.send('file-url', path);
+    document.getElementById('currentFile').className = 'complete';
+    txtFileSet = true;
 });
 
-    //Choose Folder Button
+//choose folder button
     const folderButton = document.getElementById('pdfFolderLocation');
     folderButton.addEventListener('click', function (event) {
         ipc.send('open-folder-dialog-for-folder');
@@ -71,19 +87,87 @@
     ipc.on('selected-folder', function (event, folderPath) {
     console.log('Full path: ', folderPath);
     document.getElementById('currentFolder').innerHTML = folderPath;
+    ipc.send('folder-url', folderPath);
+    document.getElementById('currentFolder').className = 'complete';
+    folderLocationSet = true;
 });
-    //RENAME button - needs work
+    //RENAME button
     function message(event){
         event.preventDefault();
-        console.log('running renamer');
+        if (projectCodeSet === false
+        ||
+        txtFileSet === false
+        ||
+        folderLocationSet === false
+        ) {
+            selectionCheck()
+            ipc.send('rename');
+        } else {
         ipc.send('rename');
-        //console.log(txtFile);
-    }
+        document.getElementById('success').innerHTML = 'RENAMING....'
+}};
+
     const renameSubmit = document.querySelector('#rename');
     renameSubmit.addEventListener('submit', message);
 
-    //test areas
+    //css logic
+    let projectCodeSet = false;
+    let txtFileSet = false;
+    let folderLocationSet = false;
 
+    function selectionCheck(){
+        switch(projectCodeSet){
+            case false:
+                document.getElementById('code').innerHTML = 'set the project code'
+                document.getElementById('code').className = 'alert';
+                document.getElementById('success').innerHTML = ''
+                console.log(`project code = ${projectCodeSet}`);
+            break;
+            case true:
+                console.log('code good')        
+        };
+        switch(txtFileSet){
+            case false:
+                document.getElementById('currentFile').className = 'alert';
+                document.getElementById('success').innerHTML = ''
+                console.log(`file location = ${txtFileSet}`);
+            break;
+            case true:
+                console.log('txt good');
+        };
+        switch(folderLocationSet){
+            case false:
+                document.getElementById('currentFolder').className = 'alert';
+                document.getElementById('success').innerHTML = ''
+                console.log(`folder location = ${folderLocationSet}`);
+            break;
+            case true:
+                console.log('folder good');
+        }
+    };
+
+    //darkmode
+    ipc.on('darkmode', function (){
+        //document.body.classList.toggle('dark-theme')
+        let overallLight = document.getElementsByClassName('overall-light')[0];
+        let headingLight = document.getElementsByClassName('heading');
+        let lightTheme = document.getElementsByClassName('light-theme');
+        let basicLight = document.getElementsByClassName('basic')[0];
+        let renameLight = document.getElementsByClassName('rename')[0];
+        
+    
+        overallLight.classList.toggle('overall-dark');
+        headingLight[0].classList.toggle('heading-dark');
+        headingLight[1].classList.toggle('heading-dark');
+        headingLight[2].classList.toggle('heading-dark');
+        lightTheme[0].classList.toggle('dark-theme');
+        lightTheme[1].classList.toggle('dark-theme');
+        basicLight.classList.toggle('basic-dark');
+        renameLight.classList.toggle('rename-dark');
+        
+    });
+
+const renamer = require('./renamer');
 
 </script>
 

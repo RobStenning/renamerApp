@@ -6,19 +6,34 @@ const renamer = require('./renamer');
 function run(){
     renamer.runRenamer();
 };
+function renamed(){
+    renamer.renamed();
+};
 
 const {app, BrowserWindow, Menu, ipcMain, dialog, os} = electron;
 
+
+//set environment, (toggle Dev Tools)
+//process.env.NODE_ENV = 'production';
+
 let mainWindow;
-let addWindow;
+//let addWindow;
 process.on('uncaughtException', function (error) {
     console.log(error)
 })
 //listen for app ready
 app.on('ready', function() {
     //create new window
-    mainWindow = new BrowserWindow({});
-    //load html file
+    mainWindow = new BrowserWindow({
+        width: 500,
+        resizable: true,
+    webPreferences: {
+        nodeIntegration: true,
+        contextIsolation: false
+    }
+    });
+       
+//load html file
     mainWindow.loadURL(url.format({
         pathname: path.join(__dirname, 'mainWindow.html'),
         protocol: 'file',
@@ -35,100 +50,83 @@ app.on('ready', function() {
     Menu.setApplicationMenu(mainMenu);
 });
 
-//default pop up window size
-const defaultWidth = 350
-const defaultHeight = 150
-
-//create project code window
-function createprojectCodeWindow(){
-    //create new window
-    projectCodeWindow = new BrowserWindow({
-        width: defaultWidth,
-        height: defaultHeight,
-        title: 'Specify the project code'    
-    });
-    //load html file
-    projectCodeWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'projectCodeWindow.html'),
-        protocol: 'file',
-        slashes: true
-    }));
-    //garbage collection, saves memory?
-    projectCodeWindow.on('close', function(){
-        addWindow = null;
-    })
-
+//set variables to none
+let projectCode = '';
+let txtFile = '';
+let folderURL = ''
 
 //catch projectcode
-ipcMain.on('projectcode:add', function(event, projectcode){
-    console.log(projectcode);
-    mainWindow.webContents.send('projectcode:add', projectcode);
-    projectCodeWindow.close();
-})
-}
-//create selectFolder location window
-function createSelectFolderWindow(){
-    //create new window
-    const selectFolderWindow = new BrowserWindow({
-        width: defaultWidth,
-        height: defaultHeight,
-        title: 'Specify the txt file location'
-    });
-    //load html file
-    selectFolderWindow.loadURL(url.format({
-        pathname: path.join(__dirname, 'selectFolderWindow.html'),
-        protocol: 'file',
-        slashes: true
-    }));
-    //garbage collection, saves memory?
-    selectFolderWindow.on('close', function(){
-        addWindow = null;
-    })
-
-//catch folderLocation
-ipcMain.on('folderlocation:add', function(event, folderlocation){
-    console.log(folderlocation);
-    mainWindow.webContents.send('folderlocation:add', folderlocation);
-    selectFolderWindow.close();
-    })
-}
-
-//test button area
-/*
-extra code to handle platform, to look into
-issues with os defined in require
-issues with cannot read property platform of undefined
-platform, restructured to darwin
-
-ipcMain.on('open-file-dialog-for-file', function (event) {
-    if(os.platform() === 'linux' || os.platform() === 'win32'){
-        dialog.showOpenDialog({
-            properties: ['openFile']
-        }, function (files) {
-            if (files) event.sender.send('selected-file', files[0]);
-        });
-    } else {
-            dialog.showOpenDialog({
-                properties: ['openFiles', 'openDirectory']
-            }, function (files) {
-                if (files) event.sender.send('selected-file', file[0]);
-            });
-}});
-*/
-//Choose File Button
-ipcMain.on('open-file-dialog-for-file', function (event) {
-    dialog.showOpenDialog({
-            properties: ['openFile']
-        }, function (files) {
-            if (files) event.sender.send('selected-file', files[0]);
-            let txtFile = files[0];        
-            console.log(txtFile);
-        });
+ipcMain.on('projectcode-set', function (event, data) {
+    setProjectCode(data);
 });
 
-//console.log(txtFile);
+//sets project code from user selection
+function setProjectCode(data){
+    projectCode = data;
+    console.log('set the code to:');
+    console.log(projectCode);
+};
 
-//Choose Folder Button
+//sets exported function to user selection
+function exporter() {
+    if (projectCode !== '' && txtFile !== '' && folderURL !== '') {
+        module.exports = { projectCode, txtFile, folderURL };
+        run();
+        renamed();
+    } else {
+        console.log('one or more options not set');
+    }
+};
+
+//choose file button
+/*    ipcMain.on('open-file-dialog-for-file', function (event) {
+        dialog.showOpenDialog({
+        properties: ['openFile']
+        }, function (files) {
+            console.log('working');
+            if (files) event.sender.send('selected-file', files[0]);
+            console.log('working')
+        });
+    });
+*/
+
+/*
+ipcMain.on('open-file-dialog-for-file', function (event, callback) {
+    electron.dialog.showOpenDialog({
+     properties: ['openFile']
+    }, function (files) {
+     if (files)
+      event.sender.send(callback, files)
+      console.log(files);
+    })
+   });
+   */
+   ipcMain.on('open-file-dialog-for-file', function (event) {
+   dialog.showOpenDialog({
+       properties: ['openFile'] }).then(function (response) {
+       if (!response.canceled) {
+           // handle fully qualified file name
+         console.log(response.filePaths[0]);
+         event.sender.send('selected-file', response.filePaths[0]);
+       } else {
+         console.log("no file selected");
+       }
+   });
+});
+
+//set file path url
+    ipcMain.on('file-url', function (event, path) {
+        setFilePath(path);
+        console.log('working')
+    });
+
+    function setFilePath(path) {
+        txtFile = path;
+        console.log('working')
+    };
+
+//choose folder button
+/*  
 ipcMain.on('open-folder-dialog-for-folder', function (event) {
     dialog.showOpenDialog({
             properties: ['openDirectory']
@@ -136,45 +134,59 @@ ipcMain.on('open-folder-dialog-for-folder', function (event) {
             if (folder) event.sender.send('selected-folder', folder[0]);
         });
 });
+*/
+
+ipcMain.on('open-folder-dialog-for-folder', function (event) {
+    dialog.showOpenDialog({
+        properties: ['openDirectory'] }).then(function (response) {
+        if (!response.canceled) {
+            // handle fully qualified file name
+          console.log(response.filePaths[0]);
+          event.sender.send('selected-folder', response.filePaths[0]);
+        } else {
+          console.log("no folder selected");
+        }
+    });
+ });
+
+//set folder path url
+    ipcMain.on('folder-url', function (event, folderPath) {
+        setFolderPath(folderPath);
+    });
+
+    function setFolderPath(folderPath) {
+        folderURL = folderPath;
+    };
 
 //rename button
-ipcMain.on('rename', function (event) {
-        console.log('woulda run')
-        run();
+ipcMain.on('rename', function () {
+        console.log('starting renamer');
+        console.log(projectCode);
+        console.log(txtFile);
+        console.log(folderURL);
+        exporter();
 });
-
 
 //menu template
 const mainMenuTemplate = [
     {
-    label: 'File',
+    label: 'Options',
     submenu:[
-        {
-            label: 'project code',
-            click(){
-                createprojectCodeWindow();
-            }
-        },
-        {
-            label: 'txt file location'
-        },
-        {
-            label: 'pdf folder location'
-        },
         {
             label: 'Quit',
             accelerator: process.platform == 'darwin' ? 'Command+Q' : 'Ctrl+Q',
             click(){
-            app.quit();
+                app.quit();
                 }
+        },
+        {
+            label: 'Dark Mode',
+            accelerator: process.platform == 'darwin' ? 'Command+D' : 'Ctrl+D',
+            click(){   
+                mainWindow.webContents.send('darkmode')
             }
-        ]
-    },
-    {
-        label: 'Select Folder',
-        click(){
-            createSelectFolderWindow();
         }
+    ]
     }
 ];
 

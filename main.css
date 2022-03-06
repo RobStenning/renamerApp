@@ -1,0 +1,110 @@
+body.light-theme {
+    background-color: white;
+}
+
+.basic {
+    color: black;
+}
+
+.alert {
+    color: red;
+}
+
+.complete {
+    color: green;
+}
+
+.overall-light {
+    padding: 10px 50px 0px 50px;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background-color: white;
+    color: black;
+}
+
+h1.light-theme { 
+    text-align: center;
+    border-bottom: 1px solid;
+    margin-bottom: 60px;
+    color: black;
+}
+
+.heading {
+    border-bottom: 1px solid;
+    border-color: black;
+    margin-top: 20px;
+}
+
+.button {
+    background-color: black;
+    border-radius:42px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-size:13px;
+	font-weight:bold;
+	padding:2px 13px;
+	text-decoration:none;
+}
+
+.button:hover {
+	background-color: white;
+    color: black;
+}
+.button:active {
+	position:relative;
+	top:1px;
+}
+
+.rename {
+    margin-top: 30px;
+    padding-bottom: 20px;
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+
+
+/* darkmode */
+
+body.dark-theme {
+    background-color: black;
+}
+
+.overall-dark {
+    padding: 10px 50px 0px 50px;
+    font-family: 'Segoe UI', Tahoma, sans-serif;
+    background-color: black;
+    color: white;
+}
+
+h1.dark-theme { 
+    text-align: center;
+    border-bottom: 1px solid;
+    margin-bottom: 60px;
+    color: white;
+}
+
+.heading-dark {
+    border-bottom: 1px solid;
+    border-color: white;
+    margin-top: 20px;
+    color: white;
+}
+
+.rename-dark {
+    margin-top: 30px;
+    padding-bottom: 20px;
+    text-align: center;
+    border-bottom: 1px solid white;
+}
+
+.basic-dark {
+    color: white;
+}
+
+.alert-dark {
+    color: red;
+}
+
+.complete-dark {
+    color: green;
+}
