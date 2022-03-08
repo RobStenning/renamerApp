@@ -14,7 +14,7 @@ const {app, BrowserWindow, Menu, ipcMain, dialog, os} = electron;
 
 
 //set environment, (toggle Dev Tools)
-//process.env.NODE_ENV = 'production';
+process.env.NODE_ENV = 'production';
 
 let mainWindow;
 //let addWindow;
@@ -79,28 +79,6 @@ function exporter() {
 };
 
 //choose file button
-/*    ipcMain.on('open-file-dialog-for-file', function (event) {
-        dialog.showOpenDialog({
-        properties: ['openFile']
-        }, function (files) {
-            console.log('working');
-            if (files) event.sender.send('selected-file', files[0]);
-            console.log('working')
-        });
-    });
-*/
-
-/*
-ipcMain.on('open-file-dialog-for-file', function (event, callback) {
-    electron.dialog.showOpenDialog({
-     properties: ['openFile']
-    }, function (files) {
-     if (files)
-      event.sender.send(callback, files)
-      console.log(files);
-    })
-   });
-   */
    ipcMain.on('open-file-dialog-for-file', function (event) {
    dialog.showOpenDialog({
        properties: ['openFile'] }).then(function (response) {
@@ -126,15 +104,6 @@ ipcMain.on('open-file-dialog-for-file', function (event, callback) {
     };
 
 //choose folder button
-/*  
-ipcMain.on('open-folder-dialog-for-folder', function (event) {
-    dialog.showOpenDialog({
-            properties: ['openDirectory']
-        }, function (folder) {
-            if (folder) event.sender.send('selected-folder', folder[0]);
-        });
-});
-*/
 
 ipcMain.on('open-folder-dialog-for-folder', function (event) {
     dialog.showOpenDialog({

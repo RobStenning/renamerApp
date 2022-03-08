@@ -26,7 +26,6 @@ let importedData = data.split('"');
 const sheetData = importedData.filter(sheetIsNotBlank => sheetIsNotBlank.length > 2);
 
 //creates new array by filtering array for projectCode
-//let projectCode = 'MUM1X0';
 const sheetNumbers = sheetData.filter(sheetCheck => sheetCheck.includes(projectCode));
 
 //creates new array with .pdf appended
@@ -52,7 +51,6 @@ let i = 0;
 let j = 0;
 //for testing
 //console.log(`start i=${i} & j=${j}`);
-
 
 //searches newSheetNumbers to see if pdfNames matches, returns true or false
 function sheetChecker(){ 
