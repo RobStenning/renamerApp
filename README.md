@@ -31,3 +31,7 @@ to package the app in a desktop format.
 renamerApp helped me succesfully rename hundreds of drawings in a fraction of the time it would take to manually rename the PDF's
 
 ### Example
+
+On the right hand side is the app, bottom left is the .txt file and it's contents and top left is the folder location of the PDF's to be renamed.
+
+<img src="renamerAppGIF.gif?raw=true" width="200px">
